@@ -1,0 +1,13 @@
+<h2>Ask a Question - <span style="color: red;">User</span></h2>
+
+<form [formGroup]="askForm" (ngSubmit)="onSubmit()">
+  <label for="questionTitle">Title:</label>
+  <input id="questionTitle" formControlName="questionTitle" required />
+
+  <label for="questionText">Question:</label>
+  <textarea id="questionText" formControlName="questionText" rows="5" required></textarea>
+
+  <button type="submit" [disabled]="askForm.invalid">Submit</button>
+</form>
+
+<p *ngIf="message">{{ message }}</p>

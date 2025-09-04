@@ -1,0 +1,34 @@
+<h1>User Dashboard Secure</h1>
+
+<div class="user-info">
+  <h3>Name: {{ userName }}</h3>
+  <h3>Email: {{ email }}</h3>
+  <h3>Role: {{ role }}</h3>
+</div>
+
+<a routerLink="/question/ask">Ask A Question</a>
+<a routerLink="/question/approved">Go To Approved Question</a>
+
+<br /><br />
+<button (click)="logout()">Logout</button>
+
+<hr><hr>
+<h2>All Approve Questions With Answer</h2>
+
+<div *ngFor="let question of questionsWithAnswers" class="question-card">
+  <h3>{{ question.questionText }}</h3>
+  <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
+
+  <button (click)="question.showAnswers = !question.showAnswers">
+    {{ question.showAnswers ? 'Hide Answers' : 'Show Answers' }}
+  </button>
+
+  <div *ngIf="question.showAnswers && question.answers && question.answers.length > 0" class="answers">
+    <h4>Answers:</h4>
+    <ul>
+      <li *ngFor="let answer of question.answers">
+        {{ answer.answerText }} - <em>{{ answer.answeredBy }}</em>
+      </li>
+    </ul>
+  </div>
+</div>

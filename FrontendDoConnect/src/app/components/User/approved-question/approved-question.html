@@ -1,0 +1,21 @@
+<h1 class="page-title">
+  Approved Questions - <span class="role-label">User/Admin</span>
+</h1>
+
+<!-- ✅ Questions List -->
+<div *ngFor="let question of approvedQ" class="question-card">
+  <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
+  <h3>{{ question.questionTitle }}</h3>
+  <p>{{ question.questionText }}</p>
+
+  <button class="answer-btn" (click)="giveAnswer(question.questionId)">
+    Give Answer
+  </button>
+
+  <hr />
+</div>
+
+<!-- ✅ No Questions Template -->
+<ng-template #noQuestions>
+  <h3 class="no-questions">No Approved Questions Available</h3>
+</ng-template>

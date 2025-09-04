@@ -1,0 +1,25 @@
+<h1 class="page-title">
+  Here are the Pending Questions - <span class="admin-label">Admin</span>
+</h1>
+
+<!-- ✅ Questions List -->
+<div *ngIf="pendingQuestion.length > 0">
+  <div *ngFor="let question of pendingQuestion" class="question-card">
+    <h3>{{ question.questionTitle }}</h3>
+    <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
+    <p>{{ question.questionText }}</p>
+
+    <div class="button-group">
+      <button class="approve-btn" (click)="approveQuestion(question.questionId)">Approve</button>
+      <button class="reject-btn">Reject</button>
+      <button class="delete-btn" (click)="removeQuestion(question.questionId)">Delete</button>
+    </div>
+
+    <hr />
+  </div>
+</div>
+
+<!-- ✅ No Questions -->
+<div *ngIf="pendingQuestion.length === 0" class="no-pending">
+  <h2>No Pending Questions</h2>
+</div>

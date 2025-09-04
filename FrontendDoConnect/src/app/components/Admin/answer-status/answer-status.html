@@ -1,0 +1,23 @@
+<h1 class="page-title">Answer Pending Page</h1>
+
+<div *ngIf="pendingAnswers.length > 0">
+  <div *ngFor="let pendingAns of pendingAnswers" class="answer-card">
+    <h2>Answer By: {{ pendingAns.answeredBy }}</h2>
+    <h4>Title: {{ pendingAns.questionTitle }}</h4>
+    <h4>Question: {{ pendingAns.questionText }}</h4>
+    <p><strong>Answer:</strong> {{ pendingAns.answerText }}</p>
+
+    <div class="button-group">
+      <button class="approve-btn" (click)="ApproveAnswer(pendingAns.answerId)">Approve</button>
+      <button class="reject-btn" disabled>Reject</button> <!-- Placeholder -->
+      <button class="delete-btn" (click)="deleteAnswer(pendingAns.answerId)">Delete</button>
+    </div>
+
+    <hr />
+  </div>
+</div>
+
+<!-- No pending answers -->
+<div *ngIf="pendingAnswers.length === 0" class="no-pending">
+  <h3>No Pending Answers</h3>
+</div>

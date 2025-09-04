@@ -1,0 +1,23 @@
+<h1 class="page-title">Question Details</h1>
+
+<div class="question-detail">
+  <h2>Title: {{ questionDetail.questionTitle }}</h2>
+  <p><strong>Text:</strong> {{ questionDetail.questionText }}</p>
+</div>
+
+<hr />
+
+<h2 class="section-title">Add Answer</h2>
+
+<form [formGroup]="addAnswer" (ngSubmit)="onSubmit()" class="answer-form">
+  <label for="answertext">Your Answer:</label>
+  <textarea
+    id="answertext"
+    formControlName="answertext"
+    placeholder="Type your answer here..."
+    rows="5"
+    required
+  ></textarea>
+
+  <button type="submit" [disabled]="addAnswer.invalid">Submit</button>
+</form>

@@ -1,0 +1,94 @@
+/* Wrapper */
+div {
+  max-width: 450px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Form groups */
+form div {
+  margin-bottom: 5px;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Inputs and Select */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #0074d9;
+  outline: none;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
+  background-color: #218838;
+}
+
+/* Login Link */
+a {
+  display: block;
+  text-align: center;
+  margin-top: 5px;
+  color: #0074d9;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Message styling */
+div[ng-reflect-ng-if] {
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #eafaf1;
+  color: #1c7430;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  text-align: center;
+}
