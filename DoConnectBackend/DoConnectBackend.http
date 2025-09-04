@@ -1,0 +1,6 @@
+@DoConnectBackend_HostAddress = http://localhost:5122
+
+GET {{DoConnectBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
