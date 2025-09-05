@@ -1,0 +1,210 @@
+.menu-btn {
+  font-size: 20px;
+  z-index: 3;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  z-index: 1;
+}
+
+.topbar {
+  background-color: #2c5d8a;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.topbar h4 {
+  cursor: pointer;
+}
+
+.topbar h2 {
+  /* text-align: center; */
+  margin: 0px auto;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.dashboard-title {
+  margin: 30px 0 10px 30px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 📑 Table layout */
+.rejected-answer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f5ff;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+.rejected-answer-table th {
+  background-color: #ede7f6;
+  color: #4a148c;
+  font-weight: bold;
+  padding: 12px;
+  border: 1px solid #d1c4e9;
+}
+
+.rejected-answer-table td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+  color: #333;
+}
+
+/* 📷 Image area */
+.thumbnail {
+  width: 100px;
+  height: auto;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.image-wrapper {
+  text-align: center;
+}
+
+.asked-by {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 6px;
+}
+
+/* 🔘 Buttons */
+.approve-btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 6px 10px;
+  margin: 4px 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #c62828;
+  color: white;
+  padding: 6px 10px;
+  margin: 4px 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 💻 Responsive Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+
+  .rejected-answer-table th,
+  .rejected-answer-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .thumbnail {
+    width: 80px;
+  }
+
+  .approve-btn,
+  .delete-btn {
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+}
+
+
+
+
+
+
+
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 50vw;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.large-image {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  font-size: 28px;
+  background-color: #333;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1001;
+}

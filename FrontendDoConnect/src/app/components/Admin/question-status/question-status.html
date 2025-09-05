@@ -1,47 +1,58 @@
-<h1 class="page-title">
-  Here are the Pending Questions - <span class="admin-label">Admin</span>
-</h1>
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+<app-admin-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-admin-nav>
 
-<!-- ✅ Questions List -->
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4 (click)="adminDashboard()">DoConnect</h4>
+  <h2>Questions Status - <span style="color: rgb(242, 0, 0);" >Pending </span>  </h2>
+</div>
+
+
+
+<!-- ✅ Table for Pending Questions -->
 <div *ngIf="pendingQuestion.length > 0">
-  <div *ngFor="let question of pendingQuestion" class="question-card">
-    <div class="flexdiv">
-
-      <div>
-        <h3>{{ question.questionTitle }}</h3>
-        <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
-        <p>{{ question.questionText }}</p>
-      </div>
-
-      <div class="imagediv">
-        <!-- Check if imagePath is available. If not, use default image -->
-        <img *ngIf="question.imagePath; else defaultImage" [src]="'http://localhost:5122/images/' + question.imagePath"
-          alt="Question Image" (click)="showLargeImage(question.imagePath)">
-
-        <!-- Template for default image -->
-        <ng-template #defaultImage>
-          <img [src]="'download.jpeg'" alt="Default Image">
-        </ng-template>
-      </div>
-    </div>
-
-    <div class="button-group">
-      <button class="approve-btn" (click)="approveQuestion(question.questionId)">Approve</button>
-      <button class="reject-btn">Reject</button>
-      <button class="delete-btn" (click)="removeQuestion(question.questionId)">Delete</button>
-    </div>
-
-    <hr />
+  <div class="table-wrapper">
+    <table class="question-table">
+      <thead>
+        <tr>
+          <th class="image-col">Image</th>
+          <th class="title-col">Question Title</th>
+          <th class="text-col">Question Text</th>
+          <th class="actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let question of pendingQuestion">
+          <td class="image-cell">
+            <div class="image-wrapper">
+              <img *ngIf="question.imagePath; else defaultImage"
+                [src]="'http://localhost:5122/images/' + question.imagePath" alt="Question Image" class="thumbnail"
+                (click)="showLargeImage(question.imagePath)">
+              <ng-template #defaultImage>
+                <img src="download.jpeg" alt="Default Image" class="thumbnail">
+              </ng-template>
+              <p class="asked-by"><strong>Asked By:</strong> {{ question.askedBy }}</p>
+            </div>
+          </td>
+          <td>{{ question.questionTitle }}</td>
+          <td>{{ question.questionText }}</td>
+          <td>
+            <button class="approve-btn" (click)="approveQuestion(question.questionId)">Approve</button>
+            <button class="reject-btn" (click)="rejectQuestion(question.questionId)">Reject</button>
+            <button class="delete-btn" (click)="removeQuestion(question.questionId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
-<!-- ✅ No Questions -->
+<!-- ✅ No Pending Questions -->
 <div *ngIf="pendingQuestion.length === 0" class="no-pending">
   <h2>No Pending Questions</h2>
 </div>
 
-
-
+<!-- ✅ Modal for Enlarged Image -->
 <div *ngIf="selectedImage" class="modal">
   <div class="modal-content">
     <span class="close-btn" (click)="closeModal()">×</span>

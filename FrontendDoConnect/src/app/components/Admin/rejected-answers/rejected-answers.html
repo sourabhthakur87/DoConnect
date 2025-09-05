@@ -1,0 +1,61 @@
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+<app-admin-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-admin-nav>
+
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4  (click)="adminDashboard()">DoConnect</h4>
+    <h2>Answers Status - <span style="color: rgb(242, 0, 0);">Rejected </span> </h2>
+
+</div>
+
+
+
+<div *ngIf="rejectedAnswers.length > 0" class="table-wrapper">
+  <table class="rejected-answer-table">
+    <thead>
+      <tr>
+        <th class="image-col">Image</th>
+        <th class="title-col">Title</th>
+        <th class="text-col">Question Text</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let answer of rejectedAnswers">
+        <td class="image-cell">
+          <div class="image-wrapper">
+            <img 
+              *ngIf="answer.imagePath; else defaultImage"
+              [src]="'http://localhost:5122/images/' + answer.imagePath" 
+              alt="Answer Image" 
+              class="thumbnail" 
+              (click)="showLargeImage(answer.imagePath)">
+            <ng-template #defaultImage>
+              <img src="download.jpeg" alt="Default Image" class="thumbnail">
+            </ng-template>
+            <p class="asked-by"><strong>Asked By:</strong> {{ answer.askedBy }}</p>
+          </div>
+        </td>
+        <td>{{ answer.questionTitle }}</td>
+        <td>{{ answer.questionText }}</td>
+        <td>
+          <button class="approve-btn" (click)="ApproveAnswer(answer.answerId)">Approve</button>
+          <button class="delete-btn" (click)="deleteAnswer(answer.answerId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- No Rejected Answers -->
+<div *ngIf="rejectedAnswers.length === 0" class="no-pending">
+  <h2>No Rejected Answers</h2>
+</div>
+
+<!-- Image Modal (keep your working modal CSS) -->
+<div *ngIf="selectedImage" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">×</span>
+    <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image">
+  </div>
+</div>

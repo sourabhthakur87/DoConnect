@@ -1,0 +1,14 @@
+<nav [class.open]="isOpen" class="sidebar" (click)="$event.stopPropagation()">
+  <h2>DoConnect</h2>
+  <ul>
+    <li><a routerLink="/dashboard/admin">Dashboard</a></li>
+    <li class="section-title">Questions Status</li>
+    <li><a routerLink="/question/status">Check Pending Question </a></li>
+    <li><a routerLink="/question/rejected">Check Rejected Question</a></li>
+
+    <li class="section-title">Answers Status</li>
+    <li><a routerLink="/answer/status">Check Pending Answers</a></li>
+    <li><a routerLink="/answer/reject">Check Rejected Answers</a></li>
+  </ul>
+  <button (click)="logout()">Logout</button>
+</nav>

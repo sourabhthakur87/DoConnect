@@ -22,17 +22,26 @@ export class AnswerService {
     return this.http.get(`${this.baseURL}/pending`);
   }
 
+  getRejectedAnswers(): Observable<any> {
+    return this.http.get(`${this.baseURL}/reject`);
+  }
+
+
+  rejectAnswer(answerId: number): Observable<any> {
+    return this.http.put(`${this.baseURL}/${answerId}/reject`, {});
+  }
+
 
   approveAnswer(answerId: number): Observable<any> {
     return this.http.put(`${this.baseURL}/${answerId}/approve`, {});
   }
 
-  DeleteAnswer(id:number):Observable<any>{
+  DeleteAnswer(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`);
   }
 
 
-  approvedQuestionWithAnswer():Observable<any>{
+  approvedQuestionWithAnswer(): Observable<any> {
     return this.http.get(`${this.baseURL}/final-question-answer`);
   }
 }

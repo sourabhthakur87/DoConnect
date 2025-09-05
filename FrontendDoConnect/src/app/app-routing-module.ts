@@ -12,6 +12,8 @@ import { adminGuard } from './SecureRoute/Guards/admin-guard';
 import { QuestionStatus } from './components/Admin/question-status/question-status';
 import { AnswerStatus } from './components/Admin/answer-status/answer-status';
 import { AddAnswer } from './components/User/add-answer/add-answer';
+import { RejectedQuestions } from './components/Admin/rejected-questions/rejected-questions';
+import { RejectedAnswers } from './components/Admin/rejected-answers/rejected-answers';
 
 const routes: Routes = [
    { path: "", component: Login },
@@ -29,7 +31,9 @@ const routes: Routes = [
   // admin
   { path: "dashboard/admin", component: AdminDashboard, canActivate: [authGuard, adminGuard] },
   { path: "question/status", component: QuestionStatus, canActivate: [authGuard, adminGuard] },
+  { path: "question/rejected", component: RejectedQuestions, canActivate: [authGuard, adminGuard] },
   { path: "answer/status", component: AnswerStatus, canActivate: [authGuard, adminGuard] },
+  { path: "answer/reject", component: RejectedAnswers, canActivate: [authGuard, adminGuard] },
 ];
 
 @NgModule({

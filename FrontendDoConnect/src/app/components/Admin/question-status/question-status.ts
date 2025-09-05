@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { QuestionService } from '../../../services/question-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question-status',
@@ -10,19 +11,35 @@ import { QuestionService } from '../../../services/question-service';
 export class QuestionStatus {
 
   pendingQuestion: any = []
-  constructor(private pendingQuestions: QuestionService) { }
+  constructor(private pendingQuestions: QuestionService, private router: Router) { }
   selectedImage: string | null = null;
-
 
   ngOnInit() {
     this.havePendingQuestions();
   }
 
-  
+
 
   showLargeImage(imagePath: string) {
     this.selectedImage = imagePath;
   }
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+
+  adminDashboard() {
+    this.router.navigate(["/dashboard/admin"])
+  }
+
+
+
 
   // Function to close the modal
   closeModal() {
@@ -32,12 +49,16 @@ export class QuestionStatus {
   havePendingQuestions() {
     this.pendingQuestions.getPendingQuestions().subscribe(data => {
       this.pendingQuestion = data;
-      console.log(data);
     });
   }
 
   approveQuestion(id: number) {
     this.pendingQuestions.approveQuestion(id).subscribe(() => {
+      this.havePendingQuestions();
+    })
+  }
+  rejectQuestion(id: number) {
+    this.pendingQuestions.rejectQuestion(id).subscribe(() => {
       this.havePendingQuestions();
     })
   }

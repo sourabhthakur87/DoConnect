@@ -1,14 +1,31 @@
-<h1 class="dashboard-title">Secure Admin Dashboard</h1>
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+<app-admin-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-admin-nav>
 
-<div class="admin-info">
-  <h3>Name: {{ userName }}</h3>
-  <h3>Email: {{ email }}</h3>
-  <h3>Role: {{ role }}</h3>
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4>DoConnect</h4>
 </div>
 
-<div class="nav-links">
-  <a routerLink="/question/status">Pending Questions</a>
-  <a routerLink="/answer/status">Pending Answers</a>
-</div>
+<h1 class="dashboard-title">DoConnect - Admin Dashboard</h1>
 
-<button (click)="logout()">Logout</button>
+<div class="dashboard-container">
+  <!-- Info Card -->
+  <div class="card">
+    <h2>My Info</h2>
+    <hr>
+
+
+    <div class="personalinfo">
+      <p><strong>Name:</strong> {{ userName }}</p>
+      <p><strong>Email:</strong> {{ email }}</p>
+    </div>
+    <p class="rolecenter"><strong>Role:</strong> {{ role }}</p>
+
+    <div class="task">
+      <p class="taskfield" id="count1">Pending Question: {{pendingcount.questionPending}} </p>
+      <p class="taskfield" id="count2">Rejected Question: {{pendingcount.questionReject}}</p>
+      <p class="taskfield" id="count3">Pending Answers: {{pendingcount.answerPending}}</p>
+      <p class="taskfield" id="count4">Answers Rejected: {{pendingcount.answerReject}}</p>
+    </div>
+  </div>
+</div>

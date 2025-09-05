@@ -1,60 +1,121 @@
-/* Dashboard Title */
-.dashboard-title {
-  color: green;
-  text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-bottom: 30px;
+.menu-btn {
+  font-size: 20px;
+  z-index: 3;
 }
 
-/* Admin Info Section */
-.admin-info {
-  background-color: #f9f9f9;
-  max-width: 600px;
-  margin: 0 auto 30px auto;
-  padding: 20px;
-  border-left: 5px solid #28a745;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  font-size: 16px;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  z-index: 1;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+}
+
+.topbar {
+  background-color: #2c5d8a;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.topbar h4 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.dashboard-title {
+  margin: 30px 0 10px 30px;
+  font-size: 26px;
+  font-weight: bold;
   color: #333;
 }
 
-/* Navigation Links */
-.nav-links {
+.dashboard-container {
+
+  padding: 0 30px 30px 30px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex: 1;
+
+}
+
+.personalinfo {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.rolecenter {
   text-align: center;
-  margin-bottom: 30px;
 }
 
-.nav-links a {
-  display: inline-block;
-  margin: 10px 15px;
-  padding: 10px 15px;
-  background-color: #0074d9;
+.card h2 {
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.card p {
+  margin: 15px 0;
+  font-size: larger;
+}
+.task{
+  margin-top: 60px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.taskfield {
+  margin-top: 20px;
   color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.nav-links a:hover {
-  background-color: #005fa3;
-}
-
-/* Logout Button */
-button {
-  display: block;
-  margin: 0 auto;
-  padding: 10px 20px;
-  background-color: #dc3545;
-  color: white;
-  font-size: 15px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
-button:hover {
-  background-color: #c82333;
+
+.action-btn:hover {
+  background-color: #d45050;
+}
+
+
+
+#count1{
+  background-color: rgb(181, 140, 78);
+}
+#count2{
+  background-color:  #d45050;
+}
+#count3{
+  background-color:  #9c1111;
+}
+#count4{
+  background-color: rgb(118, 83, 30);
 }

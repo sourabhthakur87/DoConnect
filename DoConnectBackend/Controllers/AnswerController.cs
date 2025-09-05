@@ -110,6 +110,7 @@ namespace DoConnectBackend.Controllers
             var answers = await _doDBContext.Answers
                 .Include(a => a.User)
                 .Include(a => a.Question)
+                  .ThenInclude(q => q.Images)
                 .Where(a => a.Status == ApprovalStatus.Pending)
                 .Select(a => new
                 {
@@ -117,7 +118,34 @@ namespace DoConnectBackend.Controllers
                     a.answerText,
                     QuestionTitle = a.Question.questionTitle,
                     QuestionText = a.Question.questionText,
-                    AnsweredBy = a.User.userName
+                    AnsweredBy = a.User.userName,
+                    ImagePath = a.Question.Images.Select(img => img.ImagePath).FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return Ok(answers);
+        }
+
+
+
+
+         [HttpGet("reject")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> getRejectedAnswers()
+        {
+            var answers = await _doDBContext.Answers
+                .Include(a => a.User)
+                .Include(a => a.Question)
+                  .ThenInclude(q => q.Images)
+                .Where(a => a.Status == ApprovalStatus.Rejected)
+                .Select(a => new
+                {
+                    a.answerId,
+                    a.answerText,
+                    QuestionTitle = a.Question.questionTitle,
+                    QuestionText = a.Question.questionText,
+                    AnsweredBy = a.User.userName,
+                    ImagePath = a.Question.Images.Select(img => img.ImagePath).FirstOrDefault()
                 })
                 .ToListAsync();
 

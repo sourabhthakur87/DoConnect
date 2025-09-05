@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 
@@ -54,8 +54,17 @@ export class QuestionService {
   }
 
 
+  // get reject
+
+
+  getRejectQuestion(): Observable<any> {
+    return this.http.get(`${this.baseURL}/reject`)
+  }
 
   // Do Reject Question
+  rejectQuestion(id: number): Observable<any> {
+    return this.http.put(`${this.baseURL}/${id}/reject`, id)
+  }
 
 
   // only admin can delete 
@@ -63,4 +72,17 @@ export class QuestionService {
   removeQuestion(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`)
   }
+
+
+
+
+
+
+
+
+
+
+
+  // ------------------------------------------
+
 }

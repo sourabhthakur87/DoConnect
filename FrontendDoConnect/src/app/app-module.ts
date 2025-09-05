@@ -15,6 +15,9 @@ import { AddAnswer } from './components/User/add-answer/add-answer';
 import { UserDashboard } from './components/User/user-dashboard/user-dashboard';
 import { AdminDashboard } from './components/Admin/admin-dashboard/admin-dashboard';
 import { JwtInterceptor } from './SecureRoute/setHeader/jwt-header-interceptor';
+import { RejectedQuestions } from './components/Admin/rejected-questions/rejected-questions';
+import { RejectedAnswers } from './components/Admin/rejected-answers/rejected-answers';
+import { AdminNav } from './components/shared/admin-nav/admin-nav';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { JwtInterceptor } from './SecureRoute/setHeader/jwt-header-interceptor';
     AnswerStatus,
     AddAnswer,
     UserDashboard,
-    AdminDashboard
+    AdminDashboard,
+    RejectedQuestions,
+    RejectedAnswers,
+    AdminNav
   ],
   imports: [
     BrowserModule,

@@ -187,6 +187,33 @@ namespace DoConnectBackend.Controllers
 
 
 
+        [HttpGet("reject")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetRejectedQuestions()
+        {
+            var questions = await _doDBContext.Questions
+                .Include(q => q.User)
+                .Where(q => q.Status == ApprovalStatus.Rejected)
+                .Select(q => new
+                {
+                    q.questionId,
+                    q.questionTitle,
+                    q.questionText,
+                    AskedBy = q.User.userName,
+                    imagePath = _doDBContext.Images
+                        .Where(i => i.questionId == q.questionId)
+                        .Select(i => i.ImagePath)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            return Ok(questions);
+        }
+
+
+
+
+
         [HttpPut("{id}/approve")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ApproveQuestion(int id)

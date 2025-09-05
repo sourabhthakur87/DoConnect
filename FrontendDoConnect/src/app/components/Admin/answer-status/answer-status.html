@@ -1,23 +1,70 @@
-<h1 class="page-title">Answer Pending Page</h1>
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+<app-admin-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-admin-nav>
 
-<div *ngIf="pendingAnswers.length > 0">
-  <div *ngFor="let pendingAns of pendingAnswers" class="answer-card">
-    <h2>Answer By: {{ pendingAns.answeredBy }}</h2>
-    <h4>Title: {{ pendingAns.questionTitle }}</h4>
-    <h4>Question: {{ pendingAns.questionText }}</h4>
-    <p><strong>Answer:</strong> {{ pendingAns.answerText }}</p>
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4 (click)="adminDashboard()">DoConnect</h4>
+    <h2>Answers Status - <span style="color: rgb(242, 0, 0);">Pending </span> </h2>
 
-    <div class="button-group">
-      <button class="approve-btn" (click)="ApproveAnswer(pendingAns.answerId)">Approve</button>
-      <button class="reject-btn" disabled>Reject</button> <!-- Placeholder -->
-      <button class="delete-btn" (click)="deleteAnswer(pendingAns.answerId)">Delete</button>
-    </div>
-
-    <hr />
-  </div>
 </div>
 
-<!-- No pending answers -->
+
+
+
+
+
+<div *ngIf="pendingAnswers.length > 0" class="table-wrapper">
+  <table class="pending-answer-table">
+    <thead>
+      <tr>
+        <th class="image-col">Image</th>
+        <th class="title-col">Title</th>
+        <th class="text-col">Question & Answer</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pendingAns of pendingAnswers">
+        <td class="image-cell">
+          <div class="image-wrapper">
+            <img *ngIf="pendingAns.imagePath; else defaultImage"
+              [src]="'http://localhost:5122/images/' + pendingAns.imagePath" alt="Question Image" class="thumbnail"
+              (click)="showLargeImage(pendingAns.imagePath)">
+            <ng-template #defaultImage>
+              <img src="download.jpeg" alt="Default Image" class="thumbnail">
+            </ng-template>
+            <p class="answered-by"><strong>By:</strong> {{ pendingAns.answeredBy }}</p>
+          </div>
+        </td>
+
+        <!-- ✅ Combined title + question + answer -->
+        <td>
+          <strong>Title:</strong> {{ pendingAns.questionTitle }}<br><br>
+          <strong>Question:</strong> {{ pendingAns.questionText }}<br><br>
+          <strong>Answer:</strong> {{ pendingAns.answerText }}
+        </td>
+
+        <!-- ✅ Action buttons -->
+        <td>
+          <button class="approve-btn" (click)="ApproveAnswer(pendingAns.answerId)">Approve</button>
+          <button class="reject-btn" (click)="rejectAnswer(pendingAns.answerId)">Reject</button>
+          <button class="delete-btn" (click)="deleteAnswer(pendingAns.answerId)">Delete</button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<!-- No Pending Answers -->
 <div *ngIf="pendingAnswers.length === 0" class="no-pending">
   <h3>No Pending Answers</h3>
+</div>
+
+<!-- ✅ Modal (Keep Your Existing Working Modal) -->
+<div *ngIf="selectedImage" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">×</span>
+    <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image">
+  </div>
 </div>
