@@ -332,3 +332,4 @@ C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\refint\DoConnect
 C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\DoConnectBackend.pdb
 C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\DoConnectBackend.genruntimeconfig.cache
 C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\ref\DoConnectBackend.dll
+C:\Users\HP\Desktop\DoConnect\DoConnectBackend\bin\Debug\net9.0\DoConnectBackend.staticwebassets.runtime.json

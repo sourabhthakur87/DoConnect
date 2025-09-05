@@ -1,13 +1,24 @@
 <h2>Ask a Question - <span style="color: red;">User</span></h2>
 
-<form [formGroup]="askForm" (ngSubmit)="onSubmit()">
-  <label for="questionTitle">Title:</label>
-  <input id="questionTitle" formControlName="questionTitle" required />
+<form [formGroup]="askForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <div>
+    <label for="questionTitle">Title:</label>
+    <input id="questionTitle" formControlName="questionTitle" required class="form-control" />
+  </div>
 
-  <label for="questionText">Question:</label>
-  <textarea id="questionText" formControlName="questionText" rows="5" required></textarea>
+  <div>
+    <label for="questionText">Question:</label>
+    <textarea id="questionText" formControlName="questionText" rows="5" required class="form-control"></textarea>
+  </div>
 
-  <button type="submit" [disabled]="askForm.invalid">Submit</button>
+  <div>
+    <label>Upload Image</label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control" />
+  </div>
+
+  <button class="btn btn-primary mt-3" type="submit" [disabled]="askForm.invalid">
+    Submit
+  </button>
 </form>
 
-<p *ngIf="message">{{ message }}</p>
+<p *ngIf="message" class="alert alert-info mt-3">{{ message }}</p>

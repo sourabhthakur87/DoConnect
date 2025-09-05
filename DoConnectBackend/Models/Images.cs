@@ -9,11 +9,10 @@ namespace DoConnectBackend.Models
         public int ImageId { get; set; }
         public string imageName { get; set; }
         public string ImagePath { get; set; }
-        [Required]
         public int questionId { get; set; }
 
         [ForeignKey("questionId")]
         public Question? Question { get; set; }
-        
+
     }
 }

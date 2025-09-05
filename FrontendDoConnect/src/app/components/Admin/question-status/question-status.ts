@@ -11,10 +11,22 @@ export class QuestionStatus {
 
   pendingQuestion: any = []
   constructor(private pendingQuestions: QuestionService) { }
+  selectedImage: string | null = null;
 
 
   ngOnInit() {
     this.havePendingQuestions();
+  }
+
+  
+
+  showLargeImage(imagePath: string) {
+    this.selectedImage = imagePath;
+  }
+
+  // Function to close the modal
+  closeModal() {
+    this.selectedImage = null;
   }
 
   havePendingQuestions() {

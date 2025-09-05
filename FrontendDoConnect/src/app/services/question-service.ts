@@ -17,8 +17,15 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
+  // // for login user
+  // askQuestion(data: QuestionRequest): Observable<any> {
+  //   return this.http.post(`${this.baseURL}/ask`, data);
+  // }
+
+
+
   // for login user
-  askQuestion(data: QuestionRequest): Observable<any> {
+  askQuestion(data: FormData): Observable<any> {
     return this.http.post(`${this.baseURL}/ask`, data);
   }
 

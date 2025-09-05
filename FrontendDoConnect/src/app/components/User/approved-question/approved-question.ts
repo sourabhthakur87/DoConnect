@@ -19,6 +19,11 @@ export class ApprovedQuestion {
     private router: Router
   ) { }
 
+
+
+  selectedImage: string | null = null;
+
+
   ngOnInit(): void {
     this.approveQuestion.getApproveQuestion().subscribe({
       next: (data) => {
@@ -32,6 +37,17 @@ export class ApprovedQuestion {
       }
     });
 
+  }
+
+
+
+  showLargeImage(imagePath: string) {
+    this.selectedImage = imagePath;
+  }
+
+  // Function to close the modal
+  closeModal() {
+    this.selectedImage = null;
   }
 
   giveAnswer(questionId: string) {

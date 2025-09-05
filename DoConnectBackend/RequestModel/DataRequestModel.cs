@@ -37,6 +37,14 @@ namespace DoConnectBackend.RequestModel
         public string questionText { get; set; } = string.Empty;
     }
 
+    public class QuestionImageRequest
+    {
+        public string questionTitle { get; set; }
+        public string questionText { get; set; }
+        public IFormFile? Photo { get; set; }
+        public string? imageName { get; set; }
+    }
+
 
 
 

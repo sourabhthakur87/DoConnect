@@ -4,9 +4,26 @@
 
 <!-- ✅ Questions List -->
 <div *ngFor="let question of approvedQ" class="question-card">
-  <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
-  <h3>{{ question.questionTitle }}</h3>
-  <p>{{ question.questionText }}</p>
+  <div class="flx">
+
+    <div>
+      <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
+      <h3>{{ question.questionTitle }}</h3>
+      <p>{{ question.questionText }}</p>
+    </div>
+
+    <!-- Image with Click Event -->
+    <div class="imagediv">
+      <!-- Check if imagePath is available. If not, use default image -->
+      <img *ngIf="question.imagePath; else defaultImage" [src]="'http://localhost:5122/images/' + question.imagePath"
+        alt="Question Image" (click)="showLargeImage(question.imagePath)">
+
+      <!-- Template for default image -->
+      <ng-template #defaultImage>
+        <img [src]="'download.jpeg'" alt="Default Image">
+      </ng-template>
+    </div>
+  </div>
 
   <button class="answer-btn" (click)="giveAnswer(question.questionId)">
     Give Answer
@@ -19,3 +36,11 @@
 <ng-template #noQuestions>
   <h3 class="no-questions">No Approved Questions Available</h3>
 </ng-template>
+
+<!-- Modal or Large Image View -->
+<div *ngIf="selectedImage" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">×</span>
+    <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image">
+  </div>
+</div>

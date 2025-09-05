@@ -105,6 +105,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAngularClient");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.MapControllers();
 

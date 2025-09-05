@@ -5,9 +5,25 @@
 <!-- ✅ Questions List -->
 <div *ngIf="pendingQuestion.length > 0">
   <div *ngFor="let question of pendingQuestion" class="question-card">
-    <h3>{{ question.questionTitle }}</h3>
-    <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
-    <p>{{ question.questionText }}</p>
+    <div class="flexdiv">
+
+      <div>
+        <h3>{{ question.questionTitle }}</h3>
+        <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
+        <p>{{ question.questionText }}</p>
+      </div>
+
+      <div class="imagediv">
+        <!-- Check if imagePath is available. If not, use default image -->
+        <img *ngIf="question.imagePath; else defaultImage" [src]="'http://localhost:5122/images/' + question.imagePath"
+          alt="Question Image" (click)="showLargeImage(question.imagePath)">
+
+        <!-- Template for default image -->
+        <ng-template #defaultImage>
+          <img [src]="'download.jpeg'" alt="Default Image">
+        </ng-template>
+      </div>
+    </div>
 
     <div class="button-group">
       <button class="approve-btn" (click)="approveQuestion(question.questionId)">Approve</button>
@@ -22,4 +38,13 @@
 <!-- ✅ No Questions -->
 <div *ngIf="pendingQuestion.length === 0" class="no-pending">
   <h2>No Pending Questions</h2>
+</div>
+
+
+
+<div *ngIf="selectedImage" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">×</span>
+    <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image">
+  </div>
 </div>
