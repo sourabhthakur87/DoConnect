@@ -60,13 +60,6 @@ export class UserDashboard {
     this.isMenuOpen = false;
   }
 
-
-
-
-
-
-
-
   onSubmit() {
     if (this.askForm.invalid) {
       this.message = 'Please fill all fields!';
@@ -85,6 +78,10 @@ export class UserDashboard {
     this.questionservice.askQuestion(formData).subscribe({
       next: (res) => {
         this.message = 'Question added successfully!';
+        setTimeout(() => {
+          this.message = ""
+        }, 1500);
+
         this.askForm.reset();
         this.selectedFile = null;
       },

@@ -120,33 +120,36 @@ namespace DoConnectBackend.Controllers
             });
         }
 
-        [HttpGet("approved/{questionId}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetApprovedAnswers(int questionId)
-        {
-            var answers = await _doDBContext.Answers
-                .Include(a => a.User)
-                .Where(a => a.questionId == questionId && a.Status == ApprovalStatus.Approved)
-                .Select(a => new
-                {
-                    a.answerId,
-                    a.answerText,
-                    AnsweredBy = a.User.userName,
 
-                    AnswerImagePath = _doDBContext.Images
-                        .Where(i => i.answerId == a.answerId)
-                        .Select(i => i.ImagePath)
-                        .FirstOrDefault(),
 
-                    QuestionImagePath = _doDBContext.Images
-                        .Where(i => i.questionId == questionId && i.answerId == null)
-                        .Select(i => i.ImagePath)
-                        .FirstOrDefault()
-                })
-                .ToListAsync();
 
-            return Ok(answers);
-        }
+        // [HttpGet("approved/{questionId}")]
+        // [AllowAnonymous]
+        // public async Task<IActionResult> GetApprovedAnswers(int questionId)
+        // {
+        //     var answers = await _doDBContext.Answers
+        //         .Include(a => a.User)
+        //         .Where(a => a.questionId == questionId && a.Status == ApprovalStatus.Approved)
+        //         .Select(a => new
+        //         {
+        //             a.answerId,
+        //             a.answerText,
+        //             AnsweredBy = a.User.userName,
+
+        //             AnswerImagePath = _doDBContext.Images
+        //                 .Where(i => i.answerId == a.answerId)
+        //                 .Select(i => i.ImagePath)
+        //                 .FirstOrDefault(),
+
+        //             QuestionImagePath = _doDBContext.Images
+        //                 .Where(i => i.questionId == questionId && i.answerId == null)
+        //                 .Select(i => i.ImagePath)
+        //                 .FirstOrDefault()
+        //         })
+        //         .ToListAsync();
+
+        //     return Ok(answers);
+        // }
 
         [HttpGet("pending")]
         [Authorize(Roles = "Admin")]
@@ -242,10 +245,29 @@ namespace DoConnectBackend.Controllers
             if (answer == null)
                 return NotFound(new { message = "Answer not found" });
 
-            _doDBContext.Answers.Remove(answer);
-            await _doDBContext.SaveChangesAsync();
+            try
+            {
+                var relatedImages = await _doDBContext.Images
+                    .Where(img => img.answerId == id)
+                    .ToListAsync();
 
-            return Ok(new { message = "Answer deleted successfully" });
+                _doDBContext.Images.RemoveRange(relatedImages);
+
+                _doDBContext.Answers.Remove(answer);
+
+                // 💾 Save changes
+                await _doDBContext.SaveChangesAsync();
+
+                return Ok(new { message = "Answer and associated images deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "An error occurred while deleting the answer.",
+                    error = ex.Message
+                });
+            }
         }
     }
 }

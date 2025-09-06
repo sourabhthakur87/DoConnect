@@ -6,12 +6,10 @@ import { Login } from './components/Auth/login/login';
 import { Register } from './components/Auth/register/register';
 import { UserDashboard } from './components/User/user-dashboard/user-dashboard';
 import { AdminDashboard } from './components/Admin/admin-dashboard/admin-dashboard';
-import { AskQuestion } from './components/User/ask-question/ask-question';
 import { ApprovedQuestion } from './components/User/approved-question/approved-question';
 import { adminGuard } from './SecureRoute/Guards/admin-guard';
 import { QuestionStatus } from './components/Admin/question-status/question-status';
 import { AnswerStatus } from './components/Admin/answer-status/answer-status';
-import { AddAnswer } from './components/User/add-answer/add-answer';
 import { RejectedQuestions } from './components/Admin/rejected-questions/rejected-questions';
 import { RejectedAnswers } from './components/Admin/rejected-answers/rejected-answers';
 import { QuestionWithAnswer } from './components/shared/question-with-answer/question-with-answer';
@@ -23,9 +21,7 @@ const routes: Routes = [
 
   // user
   { path: "dashboard/user", component: UserDashboard, canActivate: [authGuard, userGuard] },
-  { path: "question/ask", component: AskQuestion, canActivate: [authGuard, userGuard] },
   { path: "question/approved", component: ApprovedQuestion, canActivate: [authGuard, userGuard] },
-  { path: "answer/addAnswer/:id", component: AddAnswer, canActivate: [authGuard, userGuard] },
 
 
 

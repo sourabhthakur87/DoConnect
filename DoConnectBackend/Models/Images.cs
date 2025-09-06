@@ -7,6 +7,8 @@ namespace DoConnectBackend.Models
     {
         [Key]
         public int ImageId { get; set; }
+
+        
         public string imageName { get; set; }
         public string ImagePath { get; set; }
         public int? questionId { get; set; }

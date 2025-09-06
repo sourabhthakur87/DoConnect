@@ -1,26 +1,38 @@
+<!-- MENU -->
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+<app-user-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-user-nav>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4>DoConnect - User</h4>
+</div>
+
+<div class="search-container">
+  <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
+    placeholder="Search approved questions..." />
+  <p class="notfound">{{Notfound}}</p>
+</div>
+
 <h1 class="page-title">
-  Approved Questions - <span class="role-label">User/Admin</span>
+  Approved Questions
 </h1>
 
 <!-- ✅ Questions List -->
 <div *ngFor="let question of approvedQ" class="question-card">
   <div class="flx">
-
     <div>
       <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
       <h3>{{ question.questionTitle }}</h3>
       <p>{{ question.questionText }}</p>
     </div>
 
-    <!-- Image with Click Event -->
+    <!-- Image -->
     <div class="imagediv">
-      <!-- Check if imagePath is available. If not, use default image -->
       <img *ngIf="question.imagePath; else defaultImage" [src]="'http://localhost:5122/images/' + question.imagePath"
         alt="Question Image" (click)="showLargeImage(question.imagePath)">
-
-      <!-- Template for default image -->
       <ng-template #defaultImage>
-        <img [src]="'download.jpeg'" alt="Default Image">
+        <img src="download.jpeg" alt="Default Image">
       </ng-template>
     </div>
   </div>
@@ -29,15 +41,29 @@
     Give Answer
   </button>
 
-  <hr />
+  <!-- ✅ Embedded Answer Form -->
+  <div *ngIf="activeAnswerFormId === question.questionId" class="answer-form-wrapper">
+    <h2 class="section-title">Add Answer</h2>
+
+    <form [formGroup]="addAnswer" (ngSubmit)="onSubmit(question.questionId)" class="answer-form">
+      <label for="answertext">Your Answer:</label>
+      <textarea id="answertext" formControlName="answertext" rows="5" placeholder="Type your answer..."
+        required></textarea>
+
+      <div class="form-group">
+        <label for="file">Upload Image:</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      </div>
+
+      <div *ngIf="message" class="form-message">{{ message }}</div>
+
+      <button type="submit" [disabled]="addAnswer.invalid">Submit</button>
+    </form>
+  </div>
+
 </div>
 
-<!-- ✅ No Questions Template -->
-<ng-template #noQuestions>
-  <h3 class="no-questions">No Approved Questions Available</h3>
-</ng-template>
-
-<!-- Modal or Large Image View -->
+<!-- Modal -->
 <div *ngIf="selectedImage" class="modal">
   <div class="modal-content">
     <span class="close-btn" (click)="closeModal()">×</span>

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './answer-status.css'
 })
 export class AnswerStatus {
-  constructor(private answerService: AnswerService,private router:Router) { }
+  constructor(private answerService: AnswerService, private router: Router) { }
   pendingAnswers: any[] = []
   selectedImage: string | null = null;
 
@@ -63,8 +63,12 @@ export class AnswerStatus {
   }
 
   deleteAnswer(id: number) {
-    this.answerService.DeleteAnswer(id).subscribe(Date => {
-      this.getPendingAnswers();
-    })
+    const status = confirm("Are You sure to delete this Answer ?")
+    if (status) {
+
+      this.answerService.DeleteAnswer(id).subscribe(Date => {
+        this.getPendingAnswers();
+      })
+    }
   }
 }

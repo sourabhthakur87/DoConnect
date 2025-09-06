@@ -62,10 +62,14 @@ export class QuestionStatus {
     })
   }
   removeQuestion(id: number) {
-    this.pendingQuestions.removeQuestion(id).subscribe(() => {
-      this.havePendingQuestions();
-    })
-  }
+
+    const status = confirm("Are You sure to delete this question ?")
+    if (status) {
+      this.pendingQuestions.removeQuestion(id).subscribe(() => {
+          this.havePendingQuestions();
+        })
+      }
+    }
 
 
 }

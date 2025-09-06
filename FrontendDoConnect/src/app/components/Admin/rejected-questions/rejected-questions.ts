@@ -12,7 +12,7 @@ export class RejectedQuestions {
   rejectedQuestions: any = []
   selectedImage: string | null = null;
 
-  constructor(private questionservice: QuestionService,private router:Router) { }
+  constructor(private questionservice: QuestionService, private router: Router) { }
   ngOnInit() {
     this.haveRejectedQuestions()
   }
@@ -29,7 +29,7 @@ export class RejectedQuestions {
   }
 
 
- adminDashboard() {
+  adminDashboard() {
     this.router.navigate(["/dashboard/admin"])
   }
 
@@ -60,8 +60,12 @@ export class RejectedQuestions {
   }
 
   removeQuestion(id: number) {
-    this.questionservice.removeQuestion(id).subscribe(() => {
-      this.haveRejectedQuestions()
-    })
+    const status = confirm("Are You sure to delete this question ?")
+    if (status) {
+
+      this.questionservice.removeQuestion(id).subscribe(() => {
+        this.haveRejectedQuestions()
+      })
+    }
   }
 }

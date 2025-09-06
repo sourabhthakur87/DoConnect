@@ -23,33 +23,6 @@ namespace DoConnectBackend.Controllers
 
         }
 
-
-
-
-        // [HttpPost("ask")]
-        // [Authorize(Roles = "User")]
-        // public async Task<IActionResult> AskQuestion([FromBody] QuestionRequest req)
-        // {
-        //     if (!ModelState.IsValid)
-        //         return BadRequest(ModelState);
-
-        //     var loggedin_userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-
-        //     var question = new Question
-        //     {
-        //         questionTitle = req.questionTitle,
-        //         questionText = req.questionText,
-        //         userId = loggedin_userId,
-        //         Status = ApprovalStatus.Pending
-        //     };
-
-        //     _doDBContext.Questions.Add(question);
-        //     await _doDBContext.SaveChangesAsync();
-
-        //     return Ok(new { message = "Question submitted, awaiting admin approval" });
-        // }
-
         [HttpPost("ask")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> AskQuestionWithImage([FromForm] QuestionImageRequest req)
@@ -57,10 +30,8 @@ namespace DoConnectBackend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // get logged-in user id if you need to set userId on Question
             var loggedin_userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
-            // 1) Save the question first
             var question = new Question
             {
                 questionTitle = req.questionTitle,
@@ -76,7 +47,6 @@ namespace DoConnectBackend.Controllers
 
             if (req.Photo != null && req.Photo.Length > 0)
             {
-                // Handle image upload
                 string folder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
@@ -100,12 +70,11 @@ namespace DoConnectBackend.Controllers
                 await _doDBContext.SaveChangesAsync();
             }
 
-            // Return the response with or without image path
             return Ok(new
             {
                 message = "Question added successfully",
                 questionId = question.questionId,
-                imagePath = savedFileName // If no image, this will be null
+                imagePath = savedFileName
             });
         }
 
@@ -113,24 +82,23 @@ namespace DoConnectBackend.Controllers
 
 
 
-        // ----------------------------------------------------------------------------------------------------------------------
-        [HttpGet("getQuestionById/{id}")]
-        [Authorize]
-        public async Task<IActionResult> getQuestionById(int id)
-        {
-            var question = await _doDBContext.Questions.FindAsync(id);
-            if (question == null)
-                return NotFound(new { message = "Question not found" });
+        // [HttpGet("getQuestionById/{id}")]
+        // [Authorize]
+        // public async Task<IActionResult> getQuestionById(int id)
+        // {
+        //     var question = await _doDBContext.Questions.FindAsync(id);
+        //     if (question == null)
+        //         return NotFound(new { message = "Question not found" });
 
 
 
-            return Ok(question);
-        }
+        //     return Ok(question);
+        // }
 
 
 
         [HttpGet("approved")]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> GetApprovedQuestions()
         {
             var questions = await _doDBContext.Questions
@@ -147,13 +115,6 @@ namespace DoConnectBackend.Controllers
                         .Select(i => i.ImagePath)
                         .FirstOrDefault()
         }).ToListAsync();
-
-
-            // var questions = await _connectDbContext.Questions
-            //  .Where(q => q.Status == ApprovalStatus.Approved)
-            //  .Include(q => q.Answer) 
-            //     .ToListAsync();
-
             return Ok(questions);
         }
 
@@ -248,15 +209,68 @@ namespace DoConnectBackend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteQuestion(int id)
         {
+            // Fetch the question including related data if needed
             var question = await _doDBContext.Questions.FindAsync(id);
             if (question == null)
                 return NotFound(new { message = "Question not found" });
 
-            _doDBContext.Questions.Remove(question);
-            await _doDBContext.SaveChangesAsync();
+            try
+            {
+                var relatedImages = await _doDBContext.Images
+                    .Where(img => img.questionId == id)
+                    .ToListAsync();
 
-            return Ok(new { message = "Question deleted successfully" });
+                _doDBContext.Images.RemoveRange(relatedImages);
+
+                // 🗑️ 3. Delete the question
+                _doDBContext.Questions.Remove(question);
+
+                // 💾 4. Save changes
+                await _doDBContext.SaveChangesAsync();
+
+                return Ok(new { message = "Question, related images, and answers deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                // Log or return detailed error
+                return StatusCode(500, new { message = "An error occurred while deleting the question.", error = ex.Message });
+            }
         }
+
+
+
+
+        [HttpGet("search")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> SearchApprovedUnansweredQuestions([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return BadRequest(new { message = "Search query cannot be empty." });
+
+            var results = await _doDBContext.Questions
+                .Include(q => q.User)
+                .Where(q => q.Status == ApprovalStatus.Approved &&
+                            !q.Answer.Any(a => a.Status == ApprovalStatus.Approved) && // ✅ No approved answers
+                            (q.questionTitle.Contains(query) || q.questionText.Contains(query)))
+                .Select(q => new
+                {
+                    q.questionId,
+                    q.questionTitle,
+                    q.questionText,
+                    askedBy = q.User.userName,
+                    imagePath = _doDBContext.Images
+                        .Where(img => img.questionId == q.questionId && img.answerId == null)
+                        .Select(img => img.ImagePath)
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            if (!results.Any())
+                return Ok(new { message = "No matching approved and unanswered questions found." });
+
+            return Ok(results);
+        }
+
 
     }
 }

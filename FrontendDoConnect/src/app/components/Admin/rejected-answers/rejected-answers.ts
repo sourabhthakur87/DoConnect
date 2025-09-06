@@ -11,15 +11,15 @@ import { Router } from '@angular/router';
 export class RejectedAnswers {
   rejectedAnswers: any = []
   selectedImage: string | null = null;
-  constructor(private answerService: AnswerService,private router:Router) { }
-  ngOnInit(){
+  constructor(private answerService: AnswerService, private router: Router) { }
+  ngOnInit() {
     this.getRejectedAnswers()
   }
 
 
 
 
-    isMenuOpen = false;
+  isMenuOpen = false;
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -29,7 +29,7 @@ export class RejectedAnswers {
     this.isMenuOpen = false;
   }
 
- adminDashboard() {
+  adminDashboard() {
     this.router.navigate(["/dashboard/admin"])
   }
 
@@ -41,17 +41,21 @@ export class RejectedAnswers {
 
     })
   }
-    ApproveAnswer(id: number) {
+  ApproveAnswer(id: number) {
     this.answerService.approveAnswer(id).subscribe(data => {
       console.log(data);
       this.getRejectedAnswers();
 
     })
   }
-   deleteAnswer(id: number) {
-    this.answerService.DeleteAnswer(id).subscribe(Date => {
-      this.getRejectedAnswers();
-    })
+  deleteAnswer(id: number) {
+    const status = confirm("Are You sure to delete this question ?")
+    if (status) {
+
+      this.answerService.DeleteAnswer(id).subscribe(Date => {
+        this.getRejectedAnswers();
+      })
+    }
   }
 
 
@@ -66,11 +70,4 @@ export class RejectedAnswers {
     this.selectedImage = null;
   }
 
-  approveAnswer() {
-
-  }
-
-  removeAnswer() {
-
-  }
 }

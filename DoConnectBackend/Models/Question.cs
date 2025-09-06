@@ -13,6 +13,7 @@ namespace DoConnectBackend.Models
 
         [Required]
         public string questionText { get; set; }
+        [Required]
         public ApprovalStatus Status { get; set; } = ApprovalStatus.Pending;
 
         [Required]

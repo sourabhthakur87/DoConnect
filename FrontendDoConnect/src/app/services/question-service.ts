@@ -17,14 +17,8 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
-  // // for login user
-  // askQuestion(data: QuestionRequest): Observable<any> {
-  //   return this.http.post(`${this.baseURL}/ask`, data);
-  // }
 
 
-
-  // for login user
   askQuestion(data: FormData): Observable<any> {
     return this.http.post(`${this.baseURL}/ask`, data);
   }
@@ -48,10 +42,10 @@ export class QuestionService {
     return this.http.put(`${this.baseURL}/${id}/approve`, id)
   }
 
-  // Get queston by id
-  getQuestionById(id: number): Observable<any> {
-    return this.http.get(`${this.baseURL}/getQuestionById/${id}`)
-  }
+  // // Get queston by id
+  // getQuestionById(id: number): Observable<any> {
+  //   return this.http.get(`${this.baseURL}/getQuestionById/${id}`)
+  // }
 
 
   // get reject
@@ -72,6 +66,15 @@ export class QuestionService {
   removeQuestion(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`)
   }
+
+
+
+
+  // Sample Angular method
+  searchQuestions(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseURL}/search?query=${query}`);
+  }
+
 
 
 
