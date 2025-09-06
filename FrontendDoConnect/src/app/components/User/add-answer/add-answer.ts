@@ -13,52 +13,60 @@ import { QuestionService } from '../../../services/question-service';
 export class AddAnswer {
   addAnswer!: FormGroup;
   questionId!: number;
+  selectedFile: File | null = null;
   message = '';
+
   questionDetail = {
-    questionTitle:"",
-    questionText:""
-  }
+    questionTitle: '',
+    questionText: ''
+  };
+
+
 
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private answerService: AnswerService, private questionServies: QuestionService) { }
 
 
-
   ngOnInit() {
     this.questionId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // ✅ Build form
     this.addAnswer = this.fb.group({
-      answertext: ['', Validators.required]
+      answertext: ['', Validators.required],
+      imageName: [''] // Optional field for naming the image
     });
 
-    this.questionServies.getQuestionById(this.questionId).subscribe(data=>{
-      console.log(data);
-      this.questionDetail.questionText = data.questionText
-      this.questionDetail.questionTitle = data.questionTitle
-      
-    })
+    this.questionServies.getQuestionById(this.questionId).subscribe(data => {
+      this.questionDetail.questionTitle = data.questionTitle;
+      this.questionDetail.questionText = data.questionText;
+    });
   }
-  onSubmit(): void {
-    if (this.addAnswer.invalid) return;
 
-    // ✅ Prepare payload
-    const payload = {
-      answerText: this.addAnswer.value.answertext,
-      questionId: this.questionId,
-      // userId: Number(localStorage.getItem('userId')) // assuming stored at login
-    };
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+  onSubmit() {
+    if (this.addAnswer.invalid) {
+      this.message = 'Please fill all required fields.';
+      return;
+    }
 
-    console.log('Submitting Answer: ', payload);
+    const formData = new FormData();
+    formData.append('answerText', this.addAnswer.value.answertext);
+    formData.append('questionId', this.questionId.toString());
 
-    // ✅ Call service to submit answer
-    this.answerService.addanswer(payload).subscribe({
-      next: () => {
+    if (this.selectedFile) {
+      formData.append('Photo', this.selectedFile);
+      formData.append('imageName', this.addAnswer.value.imageName || this.selectedFile.name);
+    }
+
+    this.answerService.addanswer(formData).subscribe({
+      next: (res) => {
         this.message = 'Answer submitted successfully! Awaiting admin approval.';
         this.addAnswer.reset();
+        this.selectedFile = null;
       },
       error: (err) => {
-        console.error('Error submitting answer', err);
+        console.error('Submission failed', err);
         this.message = 'Failed to submit answer. Please try again.';
       }
     });

@@ -2,20 +2,28 @@
   <h2>Login Yourself</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div>
+    <div class="form-group">
       <label for="username">Username</label>
       <input id="username" formControlName="userName" placeholder="Enter username" />
+      <div class="error"
+        *ngIf="(submitted || loginForm.get('userName')?.touched) && loginForm.get('userName')?.hasError('required')">
+        Username is required.
+      </div>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="password">Password</label>
       <input id="password" formControlName="password" type="password" placeholder="Enter password" />
+      <div class="error"
+        *ngIf="(submitted || loginForm.get('password')?.touched) && loginForm.get('password')?.hasError('required')">
+        Password is required.
+      </div>
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">Login</button>
   </form>
 
-  <a routerLink="register">Register</a>
+  <a class="register-link" routerLink="register">Don't have an account? Register</a>
 
-  <div *ngIf="message">{{ message }}</div>
+  <div class="message" *ngIf="message">{{ message }}</div>
 </div>

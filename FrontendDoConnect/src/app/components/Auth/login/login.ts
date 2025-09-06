@@ -10,9 +10,9 @@ import { AuthService } from '../../../services/auth-service';
   styleUrl: './login.css'
 })
 export class Login {
-loginForm!: FormGroup;
+  loginForm!: FormGroup;
   message = '';
-
+  submitted = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -28,14 +28,18 @@ loginForm!: FormGroup;
 
 
   onSubmit() {
+    this.submitted = true;
+
+
     if (this.loginForm.invalid) {
       return;
     }
 
+ 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        console.log(res);
         localStorage.setItem('token', res.token);
+
         if (res.role === 1) {
           this.router.navigate(['/dashboard/admin']);
         } else {

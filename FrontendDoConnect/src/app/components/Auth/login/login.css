@@ -1,92 +1,119 @@
-/* Wrapper for login box */
-div {
-  max-width: 400px;
-  margin: 30px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f0f4f8;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Form heading */
-h2 {
+.login-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 30px auto;
+}
+
+.login-wrapper h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  font-size: 26px;
   color: #333;
 }
 
-/* Form group */
-form div {
-  margin-bottom: 15px;
+.form-group {
+  margin-bottom: 18px;
 }
 
-/* Labels */
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-weight: 600;
   color: #555;
 }
 
-/* Input fields */
 input {
   width: 100%;
-  padding: 10px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
-  transition: border-color 0.2s;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fdfdfd;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
 input:focus {
-  border-color: #0074d9;
+  border-color: #007bff;
+  background-color: #fff;
   outline: none;
 }
 
-/* Button */
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #0074d9;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+.error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
-button:disabled {
-  background-color: #999;
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:disabled {
+  background-color: #9bbbd4;
   cursor: not-allowed;
 }
 
-button:hover:enabled {
-  background-color: #005fa3;
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 
-/* Register link */
-a {
+.register-link {
   display: block;
+  margin-top: 18px;
   text-align: center;
-  margin-top: 15px;
-  color: #0074d9;
+  font-size: 14px;
+  color: #007bff;
   text-decoration: none;
-  font-weight: bold;
 }
 
-a:hover {
+.register-link:hover {
   text-decoration: underline;
 }
 
-/* Message display */
-div[ng-reflect-ng-if] {
+.message {
   margin-top: 20px;
-  padding: 10px;
-  background-color: #fbeaea;
-  color: #a94442;
-  border: 1px solid #f5c6cb;
-  border-radius: 5px;
   text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+@media (max-height: 600px),
+(max-width: 420px) {
+
+  body,
+  html {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .login-wrapper {
+    box-shadow: none;
+    border-radius: 0;
+  }
 }

@@ -11,8 +11,9 @@ import { IUser } from '../../../Model/user.model';
   styleUrl: './register.css'
 })
 export class Register {
-registerForm!: FormGroup;
+  registerForm!: FormGroup;
   message = '';
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -24,13 +25,21 @@ registerForm!: FormGroup;
     this.registerForm = this.fb.group({
       userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      role: [0, Validators.required]
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/)
+        ]
+      ], role: [0, Validators.required]
     });
   }
 
   onSubmit() {
+    this.submitted = true;
+
     if (this.registerForm.invalid) return;
+
     const formData: IUser = {
       userName: this.registerForm.value.userName,
       email: this.registerForm.value.email,
@@ -38,16 +47,14 @@ registerForm!: FormGroup;
       role: Number(this.registerForm.value.role)
     };
 
-
-
-
     this.authService.register(formData).subscribe({
-      next: (res: any) => {
-        this.message = 'Registration successful! Please login.';
+      next: () => {
+        this.message = '✅ Registration successful! Please login.';
+        
         setTimeout(() => this.router.navigate(['/']), 1000);
       },
-      error: (err) => {
-        this.message = 'Registration failed. Try again.';
+      error: () => {
+        this.message = '❌ Registration failed. Try again.';
       }
     });
   }

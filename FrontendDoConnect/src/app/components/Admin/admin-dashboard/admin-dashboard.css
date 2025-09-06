@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+
 .menu-btn {
   font-size: 20px;
   z-index: 3;
@@ -15,7 +19,6 @@
 
 
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
   margin: 0;
@@ -85,12 +88,14 @@ body {
   margin: 15px 0;
   font-size: larger;
 }
-.task{
+
+.task {
   margin-top: 60px;
   margin-bottom: 50px;
   display: flex;
   justify-content: space-evenly;
 }
+
 .taskfield {
   margin-top: 20px;
   color: white;
@@ -98,24 +103,38 @@ body {
   padding: 10px 18px;
   border-radius: 6px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 
-.action-btn:hover {
+#count1 {
+  background-color: rgb(181, 140, 78);
+}
+
+#count1:hover {
+  background-color: #9f2020;
+}
+
+#count2 {
   background-color: #d45050;
 }
 
+#count2:hover {
+  background-color: #9f2020;
+}
 
+#count3 {
+  background-color: #9c1111;
+}
 
-#count1{
-  background-color: rgb(181, 140, 78);
+#count3:hover {
+   background-color: #975151;
 }
-#count2{
-  background-color:  #d45050;
-}
-#count3{
-  background-color:  #9c1111;
-}
-#count4{
+
+#count4 {
   background-color: rgb(118, 83, 30);
+}
+
+#count4:hover {
+    background-color: #9f2020;
 }

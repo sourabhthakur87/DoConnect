@@ -1,0 +1,16 @@
+<nav [class.open]="isOpen" class="sidebar" (click)="$event.stopPropagation()">
+  <h2>DoConnect</h2>
+  <ul>
+    <li><a routerLink="/dashboard/user">Dashboard</a></li>
+
+    <li class="section-title"> Question With Answers</li>
+    <li><a routerLink="/question_with_answer">Question With Answers</a></li>
+
+
+
+    <li class="section-title">Approved Questions</li>
+    <li><a routerLink="/question/approved">Check Approved Question </a></li>
+
+  </ul>
+  <button (click)="logout()">Logout</button>
+</nav>

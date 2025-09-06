@@ -1,20 +1,16 @@
-.menu-btn {
-  font-size: 20px;
-  z-index: 3;
-}
-
+/* 📌 Overlay */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  /* background-color: rgba(0, 0, 0, 0.5); */
   z-index: 1;
 }
 
+/* 📌 Topbar */
 .topbar {
-  background-color: #2c5d8a;
+  background-color: #6a1b9a; /* Purple */
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -26,10 +22,10 @@
 }
 
 .topbar h2 {
-  /* text-align: center; */
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
+/* 📌 Menu Button */
 .menu-btn {
   background: none;
   border: none;
@@ -37,48 +33,34 @@
   color: white;
   margin-right: 20px;
   cursor: pointer;
+  z-index: 3;
 }
 
-.dashboard-title {
-  margin: 30px 0 10px 30px;
-  font-size: 26px;
-  font-weight: bold;
-  color: #333;
+/* 📌 Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 📑 Table layout */
+/* 📌 Rejected Answer Table */
 .rejected-answer-table {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f5ff;
+  background-color: #f3e5f5; /* Light lavender */
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
 }
 
 .rejected-answer-table th {
-  background-color: #ede7f6;
-  color: #4a148c;
+  background-color: #ce93d8; /* Light purple */
+  color: #4a148c; /* Dark purple */
   font-weight: bold;
   padding: 12px;
-  border: 1px solid #d1c4e9;
+  border: 1px solid #ba68c8;
 }
 
 .rejected-answer-table td {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ddd;
   padding: 12px;
   vertical-align: top;
   white-space: normal;
@@ -86,32 +68,44 @@
   color: #333;
 }
 
-/* 📷 Image area */
+/* 🖼️ Image Display */
+.image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
 .thumbnail {
   width: 100px;
   height: auto;
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  border: 1px solid #b39ddb;
 }
 
 .thumbnail:hover {
   transform: scale(1.05);
 }
 
-.image-wrapper {
-  text-align: center;
+/* 🧾 Title + Asked By */
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .asked-by {
   font-size: 0.85rem;
-  color: #555;
-  margin-top: 6px;
+  color: #6a1b9a;
+  font-style: italic;
 }
 
 /* 🔘 Buttons */
 .approve-btn {
-  background-color: #2e7d32;
+  background-color: #00796b;
   color: white;
   padding: 6px 10px;
   margin: 4px 2px;
@@ -121,7 +115,7 @@
 }
 
 .delete-btn {
-  background-color: #c62828;
+  background-color: #d32f2f;
   color: white;
   padding: 6px 10px;
   margin: 4px 2px;
@@ -130,22 +124,12 @@
   cursor: pointer;
 }
 
-/* 💻 Responsive Table Wrapper */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-
+/* 📱 Responsive */
 @media (max-width: 768px) {
-
   .rejected-answer-table th,
   .rejected-answer-table td {
-    font-size: 14px;
     padding: 8px;
-  }
-
-  .thumbnail {
-    width: 80px;
+    font-size: 14px;
   }
 
   .approve-btn,
@@ -153,16 +137,78 @@
     font-size: 13px;
     padding: 5px 8px;
   }
+
+  .thumbnail {
+    width: 80px;
+  }
+
+  .image-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
+/* ❌ No Rejected Message */
+.no-pending {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 18px;
+  color: #444;
+}
 
+/* 🔍 Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.large-image {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
 
-
-
-
-
+.close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  font-size: 28px;
+  background-color: #333;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+/* 
 .modal {
   position: fixed;
   top: 0;
@@ -207,4 +253,4 @@
   text-align: center;
   cursor: pointer;
   z-index: 1001;
-}
+} */

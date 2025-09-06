@@ -12,7 +12,7 @@ export class AnswerService {
 
 
   //  User Specific
-  addanswer(data: any): Observable<any> {
+  addanswer(data: FormData): Observable<any> {
     return this.http.post(`${this.baseURL}/add`, data)
   }
 

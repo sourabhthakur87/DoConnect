@@ -12,66 +12,6 @@
 
 
 
-
-
-
-
-<!-- <h1 class="page-title">
-    Here are the Rejected Question - <span class="admin-label">Admin</span>
-</h1>
-<div *ngIf="rejectedQuestions.length > 0">
-    <div *ngFor="let question of rejectedQuestions" class="question-card">
-        <div class="flexdiv">
-
-            <div>
-                <h3>{{ question.questionTitle }}</h3>
-                <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
-                <p>{{ question.questionText }}</p>
-            </div>
-
-            <div class="imagediv">
-                <img *ngIf="question.imagePath; else defaultImage"
-                    [src]="'http://localhost:5122/images/' + question.imagePath" alt="Question Image"
-                    (click)="showLargeImage(question.imagePath)">
-
-                <ng-template #defaultImage>
-                    <img [src]="'download.jpeg'" alt="Default Image">
-                </ng-template>
-            </div>
-        </div>
-
-        <div class="button-group">
-            <button class="approve-btn" (click)="approveQuestion(question.questionId)">Approve</button>
-            <button class="delete-btn" (click)="removeQuestion(question.questionId)">Delete</button>
-        </div>
-
-        <hr />
-    </div>
-</div>
-
-<div *ngIf="rejectedQuestions.length === 0" class="no-pending">
-    <h2>No Rejected Questions</h2>
-</div>
-
-
-
-<div *ngIf="selectedImage" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" (click)="closeModal()">×</span>
-        <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image">
-    </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
 <div *ngIf="rejectedQuestions.length > 0" class="table-wrapper">
   <table class="rejected-table">
     <thead>

@@ -94,7 +94,7 @@ namespace DoConnectBackend.Migrations
                         column: x => x.questionId,
                         principalTable: "Questions",
                         principalColumn: "questionId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

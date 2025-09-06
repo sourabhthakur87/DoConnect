@@ -4,7 +4,7 @@
 <div class="topbar">
   <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
   <h4 (click)="adminDashboard()">DoConnect</h4>
-    <h2>Answers Status - <span style="color: rgb(242, 0, 0);">Pending </span> </h2>
+  <h2>Answers Status - <span style="color: rgb(242, 0, 0);">Pending </span> </h2>
 
 </div>
 
@@ -12,46 +12,60 @@
 
 
 
-
+<!-- Pending Answers Table -->
 <div *ngIf="pendingAnswers.length > 0" class="table-wrapper">
   <table class="pending-answer-table">
     <thead>
       <tr>
-        <th class="image-col">Image</th>
-        <th class="title-col">Title</th>
-        <th class="text-col">Question & Answer</th>
+        <th class="image-col">Images</th>
+        <th class="text-col">Title/Question & Answer</th>
         <th class="actions-col">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let pendingAns of pendingAnswers">
+        <!-- 🔸 Image Column -->
         <td class="image-cell">
           <div class="image-wrapper">
-            <img *ngIf="pendingAns.imagePath; else defaultImage"
-              [src]="'http://localhost:5122/images/' + pendingAns.imagePath" alt="Question Image" class="thumbnail"
-              (click)="showLargeImage(pendingAns.imagePath)">
+            <!-- Question Image -->
+            <p>Question</p>
+            <img *ngIf="pendingAns.questionImagePath; else defaultImage"
+              [src]="'http://localhost:5122/images/' + pendingAns.questionImagePath" alt="Question Image"
+              class="thumbnail" (click)="showLargeImage(pendingAns.questionImagePath)" />
+
+            <!-- Answer Image -->
+            <p>Answer</p>
+            <img *ngIf="pendingAns.answerImagePath; else defaultImage"
+              [src]="'http://localhost:5122/images/' + pendingAns.answerImagePath" alt="Answer Image" class="thumbnail"
+              (click)="showLargeImage(pendingAns.answerImagePath)" />
+            <!-- Default image fallback -->
             <ng-template #defaultImage>
-              <img src="download.jpeg" alt="Default Image" class="thumbnail">
+              <img src="download.jpeg" alt="Default Image" class="thumbnail" />
             </ng-template>
-            <p class="answered-by"><strong>By:</strong> {{ pendingAns.answeredBy }}</p>
           </div>
         </td>
 
-        <!-- ✅ Combined title + question + answer -->
+        <!-- 🔸 Text Column -->
         <td>
-          <strong>Title:</strong> {{ pendingAns.questionTitle }}<br><br>
-          <strong>Question:</strong> {{ pendingAns.questionText }}<br><br>
+          <div class="title-row">
+            <span>
+
+              <strong>Title:</strong> {{ pendingAns.questionTitle }}
+            </span>
+            <span class="asked-by"><strong>By:</strong> {{ pendingAns.answeredBy }}</span>
+          </div>
+          <br />
+          <strong>Question:</strong> {{ pendingAns.questionText }}<br /><br />
           <strong>Answer:</strong> {{ pendingAns.answerText }}
         </td>
 
-        <!-- ✅ Action buttons -->
+        <!-- 🔸 Action Buttons -->
         <td>
           <button class="approve-btn" (click)="ApproveAnswer(pendingAns.answerId)">Approve</button>
           <button class="reject-btn" (click)="rejectAnswer(pendingAns.answerId)">Reject</button>
           <button class="delete-btn" (click)="deleteAnswer(pendingAns.answerId)">Delete</button>
         </td>
       </tr>
-
     </tbody>
   </table>
 </div>
@@ -61,10 +75,10 @@
   <h3>No Pending Answers</h3>
 </div>
 
-<!-- ✅ Modal (Keep Your Existing Working Modal) -->
-<div *ngIf="selectedImage" class="modal">
-  <div class="modal-content">
+<!-- 🔍 Image Modal -->
+<div *ngIf="selectedImage" class="modal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close-btn" (click)="closeModal()">×</span>
-    <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image">
+    <img [src]="'http://localhost:5122/images/' + selectedImage" alt="Enlarged Image" class="large-image" />
   </div>
 </div>

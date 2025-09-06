@@ -18,6 +18,8 @@ import { JwtInterceptor } from './SecureRoute/setHeader/jwt-header-interceptor';
 import { RejectedQuestions } from './components/Admin/rejected-questions/rejected-questions';
 import { RejectedAnswers } from './components/Admin/rejected-answers/rejected-answers';
 import { AdminNav } from './components/shared/admin-nav/admin-nav';
+import { QuestionWithAnswer } from './components/shared/question-with-answer/question-with-answer';
+import { UserNav } from './components/shared/user-nav/user-nav';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { AdminNav } from './components/shared/admin-nav/admin-nav';
     AdminDashboard,
     RejectedQuestions,
     RejectedAnswers,
-    AdminNav
+    AdminNav,
+    QuestionWithAnswer,
+    UserNav
   ],
   imports: [
     BrowserModule,

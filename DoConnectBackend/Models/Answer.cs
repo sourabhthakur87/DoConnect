@@ -24,5 +24,8 @@ namespace DoConnectBackend.Models
 
         [ForeignKey("userId")]
         public User? User { get; set; }
+
+
+        public List<Images> Images { get; set; } = new List<Images>();
     }
 }

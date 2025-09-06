@@ -1,94 +1,117 @@
-/* Wrapper */
-div {
-  max-width: 450px;
-  margin: auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Container styling */
+.register-wrapper {
+  max-width: 420px;
+  margin: 30px auto;
+  padding: 10px 55px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Heading */
-h2 {
+/* Title */
+.register-wrapper h2 {
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
   color: #333;
-  margin-bottom: 5px;
 }
 
-/* Form groups */
-form div {
-  margin-bottom: 5px;
+/* Form Group */
+.form-group {
+  margin-bottom: 15px;
 }
 
 /* Labels */
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-weight: 600;
   color: #555;
 }
 
-/* Inputs and Select */
+/* Inputs & Selects */
 input,
 select {
   width: 100%;
-  padding: 10px;
-  font-size: 15px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.2s;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease-in-out;
 }
 
 input:focus,
 select:focus {
-  border-color: #0074d9;
+  border-color: #007bff;
   outline: none;
 }
 
-/* Button */
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+/* Error messages */
+.error {
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
-button:disabled {
-  background-color: #999;
+/* Submit button */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[disabled] {
+  background-color: #9bbbd4;
   cursor: not-allowed;
 }
 
-button:hover:enabled {
-  background-color: #218838;
+button:hover:not([disabled]) {
+  background-color: #0056b3;
 }
 
-/* Login Link */
-a {
+/* Login link */
+.login-link {
   display: block;
   text-align: center;
-  margin-top: 5px;
-  color: #0074d9;
-  font-weight: bold;
+  margin-top: 15px;
+  color: #007bff;
   text-decoration: none;
+  font-size: 14px;
 }
 
-a:hover {
+.login-link:hover {
   text-decoration: underline;
 }
 
-/* Message styling */
-div[ng-reflect-ng-if] {
-  margin-top: 5px;
-  padding: 5px;
-  background-color: #eafaf1;
-  color: #1c7430;
-  border: 1px solid #c3e6cb;
-  border-radius: 5px;
+/* Message */
+.message {
   text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }
+
+/* Responsive behavior */
+/* @media (max-height: 600px) {
+  .register-wrapper {
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .register-wrapper h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  button[type="submit"] {
+    padding: 10px;
+  }
+} */

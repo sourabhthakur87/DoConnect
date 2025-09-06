@@ -22,10 +22,13 @@
     <p class="rolecenter"><strong>Role:</strong> {{ role }}</p>
 
     <div class="task">
-      <p class="taskfield" id="count1">Pending Question: {{pendingcount.questionPending}} </p>
-      <p class="taskfield" id="count2">Rejected Question: {{pendingcount.questionReject}}</p>
-      <p class="taskfield" id="count3">Pending Answers: {{pendingcount.answerPending}}</p>
-      <p class="taskfield" id="count4">Answers Rejected: {{pendingcount.answerReject}}</p>
+      <p class="taskfield" routerLink="/question/status" id="count1">Pending Question: {{pendingcount.questionPending}}
+      </p>
+      <p class="taskfield" routerLink="/question/rejected" id="count2">Rejected Question:
+        {{pendingcount.questionReject}}
+      </p>
+      <p class="taskfield" routerLink="/answer/status" id="count3">Pending Answers: {{pendingcount.answerPending}}</p>
+      <p class="taskfield" routerLink="/answer/reject" id="count4">Answers Rejected: {{pendingcount.answerReject}}</p>
     </div>
   </div>
 </div>

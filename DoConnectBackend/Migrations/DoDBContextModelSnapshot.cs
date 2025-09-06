@@ -63,14 +63,19 @@ namespace DoConnectBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("answerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("imageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("questionId")
+                    b.Property<int?>("questionId")
                         .HasColumnType("int");
 
                     b.HasKey("ImageId");
+
+                    b.HasIndex("answerId");
 
                     b.HasIndex("questionId");
 
@@ -155,11 +160,15 @@ namespace DoConnectBackend.Migrations
 
             modelBuilder.Entity("DoConnectBackend.Models.Images", b =>
                 {
+                    b.HasOne("DoConnectBackend.Models.Answer", "Answer")
+                        .WithMany("Images")
+                        .HasForeignKey("answerId");
+
                     b.HasOne("DoConnectBackend.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("questionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Images")
+                        .HasForeignKey("questionId");
+
+                    b.Navigation("Answer");
 
                     b.Navigation("Question");
                 });
@@ -175,9 +184,16 @@ namespace DoConnectBackend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DoConnectBackend.Models.Answer", b =>
+                {
+                    b.Navigation("Images");
+                });
+
             modelBuilder.Entity("DoConnectBackend.Models.Question", b =>
                 {
                     b.Navigation("Answer");
+
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("DoConnectBackend.Models.User", b =>

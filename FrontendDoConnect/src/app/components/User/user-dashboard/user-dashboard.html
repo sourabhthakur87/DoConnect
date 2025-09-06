@@ -1,34 +1,69 @@
-<h1>User Dashboard Secure</h1>
-
-<div class="user-info">
-  <h3>Name: {{ userName }}</h3>
-  <h3>Email: {{ email }}</h3>
-  <h3>Role: {{ role }}</h3>
+<!-- MENU -->
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+<app-user-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-user-nav>
+<!-- TOPBAR -->
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4>DoConnect - User</h4>
 </div>
 
-<a routerLink="/question/ask">Ask A Question</a>
-<a routerLink="/question/approved">Go To Approved Question</a>
+<h1>User Dashboard</h1>
 
-<br /><br />
-<button (click)="logout()">Logout</button>
+<!-- CONTAINER -->
+<div class="containermain">
 
-<hr><hr>
-<h2>All Approve Questions With Answer</h2>
+  <!-- LEFT CARD - USER INFO -->
+  <div class="info-card">
+    <h2>My Info</h2>
+    <hr />
+    <div class="personalinfo">
+      <p><strong>Name:</strong> {{ userName }}</p>
+      <p><strong>Email:</strong> {{ email }}</p>
+    </div>
+    <p class="rolecenter"><strong>Role:</strong> {{ role }}</p>
+    <div class="approveBtn">
+      <button class="approve" routerLink="/question/approved">Approved Questions</button>
+      <button class="allQWA" routerLink="/question_with_answer">All Question With Answer</button>
+    </div>
+  </div>
 
-<div *ngFor="let question of questionsWithAnswers" class="question-card">
-  <h3>{{ question.questionText }}</h3>
-  <p><strong>Asked By:</strong> {{ question.askedBy }}</p>
+  <!-- RIGHT CARD - ASK FORM -->
+  <div class="form-card">
+    <h2>Ask Question </h2>
 
-  <button (click)="question.showAnswers = !question.showAnswers">
-    {{ question.showAnswers ? 'Hide Answers' : 'Show Answers' }}
-  </button>
+    <form [formGroup]="askForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
 
-  <div *ngIf="question.showAnswers && question.answers && question.answers.length > 0" class="answers">
-    <h4>Answers:</h4>
-    <ul>
-      <li *ngFor="let answer of question.answers">
-        {{ answer.answerText }} - <em>{{ answer.answeredBy }}</em>
-      </li>
-    </ul>
+      <!-- Title Field -->
+      <div class="form-group">
+        <label for="questionTitle">Title:</label>
+        <input id="questionTitle" formControlName="questionTitle" class="form-control" />
+        <small class="error" *ngIf="askForm.get('questionTitle')?.touched && askForm.get('questionTitle')?.invalid">
+          Title is required.
+        </small>
+      </div>
+
+      <!-- Question Text Field -->
+      <div class="form-group">
+        <label for="questionText">Question:</label>
+        <textarea id="questionText" formControlName="questionText" rows="4" class="form-control"></textarea>
+        <small class="error" *ngIf="askForm.get('questionText')?.touched && askForm.get('questionText')?.invalid">
+          Question description is required.
+        </small>
+      </div>
+
+      <!-- File Input -->
+      <div class="form-group">
+        <label>Upload Image</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control" />
+      </div>
+
+      <!-- Submit -->
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" [disabled]="askForm.invalid">Submit</button>
+      </div>
+
+    </form>
+    <p *ngIf="message" class="alert alert-info mt-3">{{ message }}</p>
+
   </div>
 </div>

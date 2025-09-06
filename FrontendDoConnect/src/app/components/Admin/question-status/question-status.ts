@@ -41,7 +41,6 @@ export class QuestionStatus {
 
 
 
-  // Function to close the modal
   closeModal() {
     this.selectedImage = null;
   }
@@ -68,5 +67,5 @@ export class QuestionStatus {
     })
   }
 
-  // Do Reject Question
+
 }

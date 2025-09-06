@@ -26,6 +26,9 @@ namespace DoConnectBackend.RequestModel
         public string Password { get; set; } = string.Empty;
     }
 
+
+
+    // Not in use
     public class QuestionRequest
     {
         [Required]
@@ -37,18 +40,21 @@ namespace DoConnectBackend.RequestModel
         public string questionText { get; set; } = string.Empty;
     }
 
+
+
+
     public class QuestionImageRequest
     {
         public string questionTitle { get; set; }
         public string questionText { get; set; }
         public IFormFile? Photo { get; set; }
         public string? imageName { get; set; }
-        
+
     }
 
 
 
-
+// not in use
     public class AnswerRequest
     {
         [Required]
@@ -59,6 +65,24 @@ namespace DoConnectBackend.RequestModel
         public int questionId { get; set; }
     }
 
+
+
+    public class AnswerWithImageRequest
+    {
+        [Required]
+        [MaxLength(1000)]
+        public string answerText { get; set; } = string.Empty;
+
+        [Required]
+        public int questionId { get; set; }
+
+
+        public IFormFile? Photo { get; set; }
+        public string? imageName { get; set; }
+    }
+
+
+    // Not in Use
     public class ImageREQ()
     {
         public string imageName { get; set; }

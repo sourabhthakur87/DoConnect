@@ -1,0 +1,72 @@
+<!-- MENU -->
+<div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+
+<div *ngIf="role === 'Admin'">
+  <app-admin-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-admin-nav>
+</div>
+<div *ngIf="role === 'User'">
+  <app-user-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-user-nav>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4>DoConnect </h4>
+</div>
+
+<h2 class="main-heading">All Approved Questions with Answers</h2>
+
+<!-- QUESTIONS LIST -->
+<div class="questions-container">
+  <div *ngFor="let question of questionsWithAnswers" class="question-card">
+
+    <!-- Header -->
+    <div class="question-header">
+      <div>
+        <div class="title">{{ question.questionTitle }}</div>
+        <div class="asked-by">Asked by: {{ question.askedBy }}</div>
+      </div>
+      <div class="image-section">
+        <p>Question Image:</p>
+        <img
+          [src]="question.questionImagePath ? 'http://localhost:5122/images/' + question.questionImagePath : '/download.jpeg'"
+          alt="Question Image" class="thumbnail" (click)="showLargeImage(question.questionImagePath)" />
+      </div>
+    </div>
+
+    <!-- Question Text -->
+    <div class="question-text">
+      {{ question.questionText }}
+    </div>
+
+    <!-- Toggle Button -->
+    <div class="question-actions">
+      <button (click)="question.showAnswers = !question.showAnswers" class="toggle-btn">
+        {{ question.showAnswers ? 'Hide Answers' : 'Show Answers' }}
+      </button>
+    </div>
+
+    <!-- Answers -->
+    <div *ngIf="question.showAnswers && question.answers?.length > 0" class="answers">
+      <h4>Answers:</h4>
+      <div *ngFor="let answer of question.answers" class="answer-block">
+        <p><strong>{{ answer.answerText }}</strong> - <em>{{ answer.answeredBy }}</em></p>
+        <div class="image-section">
+          <p>Answer Image:</p>
+          <img
+            [src]="answer.answerImagePath ? 'http://localhost:5122/images/' + answer.answerImagePath : '/download.jpeg'"
+            alt="Answer Image" class="thumbnail" (click)="showLargeImage(answer.answerImagePath)" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- IMAGE MODAL -->
+<div *ngIf="selectedImage" class="modal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close-btn" (click)="closeModal()">×</span>
+    <img [src]="selectedImage" alt="Large Image" class="large-image" />
+  </div>
+</div>

@@ -49,7 +49,13 @@
 
 
 
+/* 🔹 Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
 
+/* 🔹 Table Base */
 .pending-answer-table {
   width: 100%;
   border-collapse: collapse;
@@ -75,30 +81,43 @@
   color: #333;
 }
 
-/* 📷 Image styles */
+/* 🔹 Image Wrapper */
+.image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
 .thumbnail {
   width: 100px;
   height: auto;
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  border: 1px solid #ccc;
 }
 
 .thumbnail:hover {
   transform: scale(1.05);
 }
 
-.image-wrapper {
-  text-align: center;
+/* 🔹 Title + Asked By Inline */
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
 }
 
-.answered-by {
-  font-size: 0.85rem;
-  color: #555;
-  margin-top: 6px;
+.asked-by {
+  font-size: 0.9rem;
+  color: #444;
+  font-style: italic;
 }
 
-/* 🔘 Action buttons */
+/* 🔹 Action Buttons */
 .approve-btn {
   background-color: #2e7d32;
   color: white;
@@ -129,14 +148,55 @@
   cursor: pointer;
 }
 
-/* 💻 Responsive Scroll Wrapper */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
+/* 🔹 Modal for Enlarged Image */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-@media (max-width: 768px) {
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.large-image {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.close-btn {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  font-size: 28px;
+  background-color: #333;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* 🔹 Responsive */
+@media (max-width: 768px) {
   .pending-answer-table th,
   .pending-answer-table td {
     padding: 8px;
@@ -152,6 +212,17 @@
 
   .thumbnail {
     width: 80px;
+  }
+
+  .image-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 

@@ -14,5 +14,10 @@
   <textarea id="answertext" formControlName="answertext" placeholder="Type your answer here..." rows="5"
     required></textarea>
 
+  <div>
+    <label>Upload Image</label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" class="form-control" />
+  </div>
+
   <button type="submit" [disabled]="addAnswer.invalid">Submit</button>
 </form>

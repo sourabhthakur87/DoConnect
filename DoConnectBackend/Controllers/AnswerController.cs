@@ -13,54 +13,60 @@ namespace DoConnectBackend.Controllers
     public class AnswerController : ControllerBase
     {
         private readonly DoDBContext _doDBContext;
-        public AnswerController(DoDBContext doDBContext)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public AnswerController(DoDBContext doDBContext, IWebHostEnvironment webHostEnvironment)
         {
             _doDBContext = doDBContext;
+            _webHostEnvironment = webHostEnvironment;
         }
-
 
         [HttpGet("final-question-answer")]
         [AllowAnonymous]
         public async Task<IActionResult> GetApprovedQuestionsWithAnswers()
         {
             var data = await _doDBContext.Questions
-        .Include(q => q.User)
-        .Include(q => q.Answer)
-            .ThenInclude(a => a.User)
-        .Where(q => q.Status == ApprovalStatus.Approved
-            && q.Answer.Any(a => a.Status == ApprovalStatus.Approved))
-        .Select(q => new
-        {
-            q.questionId,
-            q.questionTitle,
-            q.questionText,
-            AskedBy = q.User.userName,
-            Answers = q.Answer
-                .Where(a => a.Status == ApprovalStatus.Approved)
-                .Select(a => new
+                .Include(q => q.User)
+                .Include(q => q.Answer)
+                    .ThenInclude(a => a.User)
+                .Where(q => q.Status == ApprovalStatus.Approved &&
+                            q.Answer.Any(a => a.Status == ApprovalStatus.Approved))
+                .Select(q => new
                 {
-                    a.answerId,
-                    a.answerText,
-                    AnsweredBy = a.User.userName
-                }).ToList()
-        })
-        .ToListAsync();
+                    q.questionId,
+                    q.questionTitle,
+                    q.questionText,
+                    AskedBy = q.User.userName,
+                    QuestionImagePath = _doDBContext.Images
+                        .Where(img => img.questionId == q.questionId && img.answerId == null)
+                        .Select(img => img.ImagePath)
+                        .FirstOrDefault(),
+                    Answers = q.Answer
+                        .Where(a => a.Status == ApprovalStatus.Approved)
+                        .Select(a => new
+                        {
+                            a.answerId,
+                            a.answerText,
+                            AnsweredBy = a.User.userName,
+                            AnswerImagePath = _doDBContext.Images
+                                .Where(img => img.answerId == a.answerId)
+                                .Select(img => img.ImagePath)
+                                .FirstOrDefault()
+                        }).ToList()
+                })
+                .ToListAsync();
 
             return Ok(data);
         }
 
-
         [HttpPost("add")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> PostAnswer(AnswerRequest req)
+        public async Task<IActionResult> PostAnswer(AnswerWithImageRequest req)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Error in Model state" + ModelState);
 
             var loggedin_userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-
-            // Check question exists and is approved
 
             var question = await _doDBContext.Questions.FindAsync(req.questionId);
             if (question == null)
@@ -80,9 +86,39 @@ namespace DoConnectBackend.Controllers
             _doDBContext.Answers.Add(answer);
             await _doDBContext.SaveChangesAsync();
 
-            return Ok(new { message = "Answer submitted, awaiting admin approval" });
-        }
+            string? savedFileName = null;
+            if (req.Photo != null && req.Photo.Length > 0)
+            {
+                string folder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
 
+                savedFileName = $"{Guid.NewGuid()}_{req.Photo.FileName}";
+                string path = Path.Combine(folder, savedFileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await req.Photo.CopyToAsync(stream);
+                }
+
+                var img = new Images
+                {
+                    imageName = string.IsNullOrWhiteSpace(req.imageName) ? req.Photo.FileName : req.imageName,
+                    ImagePath = savedFileName,
+                    answerId = answer.answerId
+                };
+
+                _doDBContext.Images.Add(img);
+                await _doDBContext.SaveChangesAsync();
+            }
+
+            return Ok(new
+            {
+                message = "Answer submitted, awaiting admin approval",
+                answerId = answer.answerId,
+                imagePath = savedFileName
+            });
+        }
 
         [HttpGet("approved/{questionId}")]
         [AllowAnonymous]
@@ -95,13 +131,22 @@ namespace DoConnectBackend.Controllers
                 {
                     a.answerId,
                     a.answerText,
-                    AnsweredBy = a.User.userName
+                    AnsweredBy = a.User.userName,
+
+                    AnswerImagePath = _doDBContext.Images
+                        .Where(i => i.answerId == a.answerId)
+                        .Select(i => i.ImagePath)
+                        .FirstOrDefault(),
+
+                    QuestionImagePath = _doDBContext.Images
+                        .Where(i => i.questionId == questionId && i.answerId == null)
+                        .Select(i => i.ImagePath)
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
 
             return Ok(answers);
         }
-
 
         [HttpGet("pending")]
         [Authorize(Roles = "Admin")]
@@ -110,7 +155,6 @@ namespace DoConnectBackend.Controllers
             var answers = await _doDBContext.Answers
                 .Include(a => a.User)
                 .Include(a => a.Question)
-                  .ThenInclude(q => q.Images)
                 .Where(a => a.Status == ApprovalStatus.Pending)
                 .Select(a => new
                 {
@@ -119,24 +163,27 @@ namespace DoConnectBackend.Controllers
                     QuestionTitle = a.Question.questionTitle,
                     QuestionText = a.Question.questionText,
                     AnsweredBy = a.User.userName,
-                    ImagePath = a.Question.Images.Select(img => img.ImagePath).FirstOrDefault()
+                    AnswerImagePath = _doDBContext.Images
+                        .Where(img => img.answerId == a.answerId)
+                        .Select(img => img.ImagePath)
+                        .FirstOrDefault(),
+                    QuestionImagePath = _doDBContext.Images
+                        .Where(img => img.questionId == a.questionId && img.answerId == null)
+                        .Select(img => img.ImagePath)
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
 
             return Ok(answers);
         }
 
-
-
-
-         [HttpGet("reject")]
+        [HttpGet("reject")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> getRejectedAnswers()
+        public async Task<IActionResult> GetRejectedAnswers()
         {
             var answers = await _doDBContext.Answers
                 .Include(a => a.User)
                 .Include(a => a.Question)
-                  .ThenInclude(q => q.Images)
                 .Where(a => a.Status == ApprovalStatus.Rejected)
                 .Select(a => new
                 {
@@ -145,15 +192,19 @@ namespace DoConnectBackend.Controllers
                     QuestionTitle = a.Question.questionTitle,
                     QuestionText = a.Question.questionText,
                     AnsweredBy = a.User.userName,
-                    ImagePath = a.Question.Images.Select(img => img.ImagePath).FirstOrDefault()
+                    AnswerImagePath = _doDBContext.Images
+                        .Where(img => img.answerId == a.answerId)
+                        .Select(img => img.ImagePath)
+                        .FirstOrDefault(),
+                    QuestionImagePath = _doDBContext.Images
+                        .Where(img => img.questionId == a.questionId && img.answerId == null)
+                        .Select(img => img.ImagePath)
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
 
             return Ok(answers);
         }
-
-
-
 
         [HttpPut("{id}/approve")]
         [Authorize(Roles = "Admin")]
@@ -169,7 +220,6 @@ namespace DoConnectBackend.Controllers
             return Ok(new { message = "Answer approved successfully" });
         }
 
-
         [HttpPut("{id}/reject")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RejectAnswer(int id)
@@ -184,7 +234,6 @@ namespace DoConnectBackend.Controllers
             return Ok(new { message = "Answer rejected successfully" });
         }
 
-
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAnswer(int id)
@@ -198,7 +247,5 @@ namespace DoConnectBackend.Controllers
 
             return Ok(new { message = "Answer deleted successfully" });
         }
-
-
     }
 }
