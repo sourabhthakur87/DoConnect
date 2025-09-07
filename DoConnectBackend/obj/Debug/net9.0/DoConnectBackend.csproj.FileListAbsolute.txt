@@ -335,3 +335,5 @@ C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\ref\DoConnectBac
 C:\Users\HP\Desktop\DoConnect\DoConnectBackend\bin\Debug\net9.0\DoConnectBackend.staticwebassets.runtime.json
 C:\Users\HP\Desktop\DoConnect\DoConnectBackend\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\HP\Desktop\DoConnect\DoConnectBackend\bin\Debug\net9.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\DoConnectBackend.RazorAssemblyInfo.cache
+C:\Users\HP\Desktop\DoConnect\DoConnectBackend\obj\Debug\net9.0\DoConnectBackend.RazorAssemblyInfo.cs

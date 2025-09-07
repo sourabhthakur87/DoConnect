@@ -1,3 +1,101 @@
+<!-- <div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
+
+<div *ngIf="role === 'Admin'">
+  <app-admin-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-admin-nav>
+</div>
+<div *ngIf="role === 'User'">
+  <app-user-nav [isOpen]="isMenuOpen" (closeMenu)="closeMenu()"></app-user-nav>
+</div>
+
+<div class="topbar">
+  <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
+  <h4>DoConnect </h4>
+</div>
+
+<h2 class="main-heading">All Approved Questions with Answers</h2>
+
+<div class="questions-container">
+  <div *ngFor="let question of questionsWithAnswers; let i = index;" class="question-card">
+
+    <div class="question-header">
+      <div>
+        <div class="title">{{i+1}}. {{ question.questionTitle }}</div>
+        <div class="asked-by">Asked by: {{ question.askedBy }}</div>
+      </div>
+      <div class="image-section">
+        <p>Question Image:</p>
+        <img
+          [src]="question.questionImagePath ? 'http://localhost:5122/images/' + question.questionImagePath : '/download.jpeg'"
+          alt="Question Image" class="thumbnail" (click)="showLargeImage(question.questionImagePath)" />
+      </div>
+    </div>
+
+    <div class="question-text">
+      {{ question.questionText }}
+    </div>
+
+    <div class="question-actions">
+      <button (click)="question.showAnswers = !question.showAnswers" class="toggle-btn">
+        {{ question.showAnswers ? 'Hide Answers' : 'Show Answers' }}
+      </button>
+    </div>
+    <div *ngIf="role === 'User'">Add Answer</div>
+
+    <div *ngIf="question.showAnswers && question.answers?.length > 0" class="answers">
+      <h4>Answers:</h4>
+      <div *ngFor="let answer of question.answers ; let i = index;" class="answer-block">
+        <p><strong>{{i + 1}}. {{ answer.answerText }}</strong> - <em style="color: red;">{{ answer.answeredBy }}</em>
+        </p>
+        <div class="image-section">
+          <p>Answer Image:</p>
+          <img
+            [src]="answer.answerImagePath ? 'http://localhost:5122/images/' + answer.answerImagePath : '/download.jpeg'"
+            alt="Answer Image" class="thumbnail" (click)="showLargeImage(answer.answerImagePath)" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="selectedImage" class="modal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close-btn" (click)="closeModal()">×</span>
+    <img [src]="selectedImage" alt="Large Image" class="large-image" />
+  </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- MENU -->
 <div class="overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
 
@@ -11,7 +109,7 @@
 <!-- TOPBAR -->
 <div class="topbar">
   <button *ngIf="!isMenuOpen" (click)="toggleMenu()" class="menu-btn">☰</button>
-  <h4>DoConnect </h4>
+  <h4>DoConnect</h4>
 </div>
 
 <h2 class="main-heading">All Approved Questions with Answers</h2>
@@ -23,7 +121,7 @@
     <!-- Header -->
     <div class="question-header">
       <div>
-        <div class="title">{{i+1}}. {{ question.questionTitle }}</div>
+        <div class="title">{{ i + 1 }}. {{ question.questionTitle }}</div>
         <div class="asked-by">Asked by: {{ question.askedBy }}</div>
       </div>
       <div class="image-section">
@@ -49,8 +147,10 @@
     <!-- Answers -->
     <div *ngIf="question.showAnswers && question.answers?.length > 0" class="answers">
       <h4>Answers:</h4>
-      <div *ngFor="let answer of question.answers ; let i = index;" class="answer-block">
-        <p><strong>{{i + 1}}. {{ answer.answerText }}</strong> - <em style="color: red;">{{ answer.answeredBy }}</em>
+      <div *ngFor="let answer of question.answers; let i = index;" class="answer-block">
+        <p>
+          <strong>{{ i + 1 }}. {{ answer.answerText }}</strong> -
+          <em style="color: red;">{{ answer.answeredBy }}</em>
         </p>
         <div class="image-section">
           <p>Answer Image:</p>
@@ -61,6 +161,29 @@
       </div>
     </div>
 
+    <!-- ✅ Give Answer Button & Conditional Form for Users -->
+    <div *ngIf="role === 'User'" class="give-answer-section">
+      <button class="answer-btn" (click)="giveAnswer(question.questionId)">Give Answer</button>
+
+      <div *ngIf="activeAnswerFormId === question.questionId" class="answer-form-wrapper">
+        <h3 class="section-title">Add Answer</h3>
+
+        <form [formGroup]="addAnswer" (ngSubmit)="onSubmit(question.questionId)" class="answer-form">
+          <label for="answertext">Your Answer:</label>
+          <textarea id="answertext" formControlName="answertext" rows="5" placeholder="Type your answer..."
+            required></textarea>
+
+          <div class="form-group">
+            <label for="file">Upload Image:</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </div>
+
+          <div *ngIf="message" class="form-message">{{ message }}</div>
+
+          <button type="submit" [disabled]="addAnswer.invalid">Submit</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -84,21 +84,6 @@ namespace DoConnectBackend.Controllers
 
 
 
-        // [HttpGet("getQuestionById/{id}")]
-        // [Authorize]
-        // public async Task<IActionResult> getQuestionById(int id)
-        // {
-        //     var question = await _doDBContext.Questions.FindAsync(id);
-        //     if (question == null)
-        //         return NotFound(new { message = "Question not found" });
-
-
-
-        //     return Ok(question);
-        // }
-
-
-
         [HttpGet("approved")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> GetApprovedQuestions()

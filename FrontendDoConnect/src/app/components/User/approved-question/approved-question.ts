@@ -109,7 +109,7 @@ export class ApprovedQuestion {
 
   onSearchChange() {
     if (!this.searchQuery.trim()) {
-      this.getapprovedQuestions(); 
+      this.getapprovedQuestions();
       return;
     }
     this.questionService.searchQuestions(this.searchQuery).subscribe((data: any) => {
