@@ -18,12 +18,12 @@
 
 <!-- QUESTIONS LIST -->
 <div class="questions-container">
-  <div *ngFor="let question of questionsWithAnswers" class="question-card">
+  <div *ngFor="let question of questionsWithAnswers; let i = index;" class="question-card">
 
     <!-- Header -->
     <div class="question-header">
       <div>
-        <div class="title">{{ question.questionTitle }}</div>
+        <div class="title">{{i+1}}. {{ question.questionTitle }}</div>
         <div class="asked-by">Asked by: {{ question.askedBy }}</div>
       </div>
       <div class="image-section">
@@ -49,8 +49,9 @@
     <!-- Answers -->
     <div *ngIf="question.showAnswers && question.answers?.length > 0" class="answers">
       <h4>Answers:</h4>
-      <div *ngFor="let answer of question.answers" class="answer-block">
-        <p><strong>{{ answer.answerText }}</strong> - <em>{{ answer.answeredBy }}</em></p>
+      <div *ngFor="let answer of question.answers ; let i = index;" class="answer-block">
+        <p><strong>{{i + 1}}. {{ answer.answerText }}</strong> - <em style="color: red;">{{ answer.answeredBy }}</em>
+        </p>
         <div class="image-section">
           <p>Answer Image:</p>
           <img

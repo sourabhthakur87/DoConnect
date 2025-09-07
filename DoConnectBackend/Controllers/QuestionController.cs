@@ -4,6 +4,7 @@ using DoConnectBackend.Models;
 using DoConnectBackend.RequestModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoConnectBackend.Controllers
@@ -67,6 +68,7 @@ namespace DoConnectBackend.Controllers
                 };
 
                 _doDBContext.Images.Add(img);
+
                 await _doDBContext.SaveChangesAsync();
             }
 

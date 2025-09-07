@@ -22,7 +22,11 @@ export class AdminDashboard {
     answerPending: 0,
     answerReject: 0
   }
-  constructor(private authservice: AuthService, private questionservice: QuestionService, private answerservice: AnswerService) { }
+  constructor(
+    private authservice: AuthService,
+    private questionservice: QuestionService,
+    private answerservice: AnswerService,
+  ) { }
 
   ngOnInit(): void {
     const userData = this.authservice.getTokenData();

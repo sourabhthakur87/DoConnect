@@ -33,7 +33,7 @@ import { UserNav } from './components/shared/user-nav/user-nav';
     RejectedAnswers,
     AdminNav,
     QuestionWithAnswer,
-    UserNav
+    UserNav,
   ],
   imports: [
     BrowserModule,
